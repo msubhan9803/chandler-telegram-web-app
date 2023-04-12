@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 
 const BuyAllHeaderDiv: NextPage = () => {
   return (
-    <div className="rounded-3xs bg-jet-black shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)_inset] flex flex-col p-[9px] items-center justify-start gap-[9px] text-left text-base text-white font-montserrat">
+    <div className="w-full md:1/4 rounded-lg bg-zinc-700 shadow-md flex flex-col p-[9px] items-center justify-start gap-[9px] text-left text-base text-white font-montserrat">
       <div className="flex flex-col items-start justify-center gap-[9px]">
         <div className="flex flex-row items-center justify-start">
           <h4 className="m-0 relative text-[inherit] font-normal font-inherit">
@@ -10,56 +11,65 @@ const BuyAllHeaderDiv: NextPage = () => {
           </h4>
         </div>
         <div className="flex flex-row items-center justify-center gap-[9px]">
-          <img
+          <Image
             className="max-w-full overflow-hidden max-h-full object-cover"
             alt=""
             src="/bitcoin-1-2@2x.png"
+            width="30"
+            height="30"
           />
-          <img
+          <Image
             className="max-w-full overflow-hidden max-h-full object-cover"
             alt=""
             src="/arrowright-1@2x.png"
+            width="30"
+            height="30"
           />
-          <img
+          <Image
             className="max-w-full overflow-hidden max-h-full object-cover"
             alt=""
             src="/ethereum-1-1@2x.png"
+            width="30"
+            height="30"
           />
         </div>
       </div>
       <div className="flex flex-col items-center justify-end text-sm">
         <div className="flex flex-col items-start justify-center gap-[9px]">
-          <div className="flex flex-row items-start justify-start gap-[6px]">
-            <div className="flex flex-col items-start justify-start gap-[9px]">
-              <div className="relative font-light">Ratio:</div>
-              <div className="relative font-light">Amount:</div>
+          <div className="flex flex-col items-start justify-start space-y-2">
+            <div className="flex flex-row items-start justify-start space-x-4">
+              <div className="min-w-[60px] font-light">Ratio:</div>
+              <div className="text-base font-abel">1:1</div>
             </div>
-            <div className="flex flex-col items-start justify-start gap-[9px] text-base font-abel">
-              <div className="relative">1:1</div>
-              <div className="flex flex-row items-start justify-start gap-[9px] font-montserrat">
-                <div className="relative">0.05650702</div>
-                <div className="relative">BTC</div>
-              </div>
+            <div className="flex flex-row items-start justify-start space-x-4">
+              <div className="min-w-[60px] font-light">Amount:</div>
+              <div className="font-montserrat">100 BTC</div>
             </div>
-          </div>
-          <div className="flex flex-row items-start justify-start gap-[9px] text-center">
-            <div className="relative font-light">Fee:</div>
-            <div className="flex flex-col items-start justify-start gap-[9px]">
-              <div className="flex flex-row items-center justify-start gap-[6px]">
-                <img
-                  className="relative w-6 h-6 shrink-0 overflow-hidden"
-                  alt=""
-                  src="/bitcoin-1-1.svg"
-                />
-                <div className="relative font-light">2.5%</div>
-              </div>
-              <div className="flex flex-row items-center justify-start gap-[6px]">
-                <img
-                  className="relative w-6 h-6 shrink-0 overflow-hidden"
-                  alt=""
-                  src="/ethereum-1-2.svg"
-                />
-                <div className="relative font-light">2.5%</div>
+            <div className="flex flex-row items-start justify-start space-x-4">
+              <div className="min-w-[60px] font-light">Fee:</div>
+              <div>
+                <div className="flex flex-col items-start justify-start gap-[9px]">
+                  <div className="flex flex-row items-center justify-start gap-[6px]">
+                    <Image
+                      width="15"
+                      height="15"
+                      className="relative w-6 h-6 shrink-0 overflow-hidden"
+                      alt=""
+                      src="/bitcoin-1-1.svg"
+                    />
+                    <div className="relative font-light">2.5%</div>
+                  </div>
+                  <div className="flex flex-row items-center justify-start gap-[6px]">
+                    <Image
+                      width="15"
+                      height="15"
+                      className="relative w-6 h-6 shrink-0 overflow-hidden"
+                      alt=""
+                      src="/ethereum-1-2.svg"
+                    />
+                    <div className="relative font-light">2.5%</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
