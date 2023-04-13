@@ -12,30 +12,23 @@ declare global {
 const CreateTrade: NextPage = () => {
   const [state, setState] = useState({
     userId: '',
-    name: '',
     username: '',
-    languageCode: '',
-    queryId: '',
+    chatId: '',
   });
-  const [windowState, setWindowState] = useState<Window>();
 
   useEffect(() => {
     if (window.location.search) {
       const urlParams = new URLSearchParams(window.location.search);
   
       const userId = urlParams.get("user_id") as string;
-      const name = urlParams.get("name") as string;
       const username = urlParams.get("username") as string;
-      const languageCode = urlParams.get("language_code") as string;
-      const queryId = urlParams.get("query_id") as string;
+      const chatId = urlParams.get("chatId") as string;
   
-      console.log(userId, name, username, languageCode, queryId);
+      console.log(userId, name, username);
       setState({
         userId,
-        name,
         username,
-        languageCode,
-        queryId,
+        chatId,
       });
     }
   }, []);
