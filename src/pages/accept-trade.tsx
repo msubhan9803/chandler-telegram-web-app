@@ -24,7 +24,6 @@ const CreateTrade: NextPage = () => {
       const username = urlParams.get("username") as string;
       const chatId = urlParams.get("chatId") as string;
   
-      console.log(userId, name, username);
       setState({
         userId,
         username,
