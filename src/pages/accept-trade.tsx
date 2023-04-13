@@ -19,8 +19,6 @@ const CreateTrade: NextPage = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      setTelegram(window.Telegram);
-
       const urlParams = new URLSearchParams(window.location.search);
   
       const userId = urlParams.get("userId") as string;
@@ -32,6 +30,10 @@ const CreateTrade: NextPage = () => {
         username,
         chatId,
       });
+    }
+
+    if (window.Telegram) {
+      setTelegram(window.Telegram);
     }
   }, []);
 
