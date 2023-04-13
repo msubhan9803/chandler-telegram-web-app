@@ -9,8 +9,6 @@ declare global {
   interface Window { Telegram: any; }
 }
 
-window.Telegram = window.Telegram || {};
-
 const CreateTrade: NextPage = () => {
   const [state, setState] = useState({
     userId: '',
@@ -22,7 +20,10 @@ const CreateTrade: NextPage = () => {
   const [windowState, setWindowState] = useState<Window>();
 
   useEffect(() => {
-    setWindowState(window);
+    if (window) {
+      window.Telegram = window.Telegram || {};
+      setWindowState(window);
+    }
     // if (window.location.search) {
     //   const urlParams = new URLSearchParams(window.location.search);
   
