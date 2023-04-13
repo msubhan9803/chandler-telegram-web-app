@@ -44,7 +44,7 @@ const CreateTrade: NextPage = () => {
     <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
       <div className="rounded-xl w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
         {JSON.stringify(state)}
-        {JSON.stringify(window?.Telegram?.WebApp)}
+        {window !== undefined && JSON.stringify(window?.Telegram?.WebApp)}
 
         <div className="flex w-full md:w-3/4 lg:w-1/2 flex-col p-[9px] items-center justify-start gap-[18px]">
           <BuyAllHeaderDiv />
