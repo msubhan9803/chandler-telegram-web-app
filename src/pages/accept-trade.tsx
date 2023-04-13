@@ -60,7 +60,7 @@ const CreateTrade: NextPage = () => {
     const payload = {
       currency1Addr: formState.currency1Addr,
       currency2Addr: formState.currency2Addr,
-      text: "/command"
+      text: "command"
     };
 
     // Send a request to the Telegram bot
