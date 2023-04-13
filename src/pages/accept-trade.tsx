@@ -60,8 +60,8 @@ const CreateTrade: NextPage = () => {
     const payload = {
       currency1Addr: formState.currency1Addr,
       currency2Addr: formState.currency2Addr,
+      text: "/command"
     };
-    debugger;
 
     // Send a request to the Telegram bot
     fetch(url, {
@@ -71,7 +71,8 @@ const CreateTrade: NextPage = () => {
       },
       body: JSON.stringify({
         chat_id: state.chatId,
-        text: JSON.stringify(payload),
+        // text: JSON.stringify(payload),
+        text: payload.text,
       }),
     })
       .then((response) => response.json())
