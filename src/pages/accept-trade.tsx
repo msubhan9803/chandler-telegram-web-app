@@ -14,23 +14,25 @@ const CreateTrade: NextPage = () => {
     queryId: '',
   });
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-
-    const userId = urlParams.get("user_id") as string;
-    const name = urlParams.get("name") as string;
-    const username = urlParams.get("username") as string;
-    const languageCode = urlParams.get("language_code") as string;
-    const queryId = urlParams.get("query_id") as string;
-
-    console.log(userId, name, username, languageCode, queryId);
-    setState({
-      userId,
-      name,
-      username,
-      languageCode,
-      queryId,
-    });
-  }, []);
+    if (window.location.search) {
+      const urlParams = new URLSearchParams(window.location.search);
+  
+      const userId = urlParams.get("user_id") as string;
+      const name = urlParams.get("name") as string;
+      const username = urlParams.get("username") as string;
+      const languageCode = urlParams.get("language_code") as string;
+      const queryId = urlParams.get("query_id") as string;
+  
+      console.log(userId, name, username, languageCode, queryId);
+      setState({
+        userId,
+        name,
+        username,
+        languageCode,
+        queryId,
+      });
+    }
+  }, [window.location.search]);
 
   return (
     <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
