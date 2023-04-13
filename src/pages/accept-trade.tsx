@@ -70,7 +70,7 @@ const CreateTrade: NextPage = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chatId: state.chatId,
+        chat_id: state.chatId,
         text: JSON.stringify(payload),
       }),
     })
