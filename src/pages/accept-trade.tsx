@@ -20,7 +20,7 @@ const CreateTrade: NextPage = () => {
     if (window.location.search) {
       const urlParams = new URLSearchParams(window.location.search);
   
-      const userId = urlParams.get("user_id") as string;
+      const userId = urlParams.get("userId") as string;
       const username = urlParams.get("username") as string;
       const chatId = urlParams.get("chatId") as string;
   
