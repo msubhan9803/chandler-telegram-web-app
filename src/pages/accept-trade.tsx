@@ -18,9 +18,9 @@ const CreateTrade: NextPage = () => {
     chatId: "",
   });
   const [formState, setFormState] = useState({
-    currency1Addr: '',
-    currency2Addr: '',
-  })
+    currency1Addr: "",
+    currency2Addr: "",
+  });
   const [telegram, setTelegram] = useState("");
 
   useEffect(() => {
@@ -46,46 +46,28 @@ const CreateTrade: NextPage = () => {
   const handleOnChange = (e: any) => {
     setFormState({
       ...formState,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  } 
+  };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const botToken = "5741903349:AAFd3xtrymqfpcmz8P0xGPb7xvNqioLEdrA"; // Replace with your bot token
-
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
     // Set up the request payload
     const payload = {
-      currency1Addr: formState.currency1Addr,
-      currency2Addr: formState.currency2Addr,
-      text: "/command"
+      chat_id: "5898044719",
+      message: {
+        currency1Addr: formState.currency1Addr,
+        currency2Addr: formState.currency2Addr,
+      },
     };
 
-    // Send a request to the Telegram bot
-    fetch(url, {
+    const response = await fetch("/api/accept-trade", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        chat_id: state.chatId,
-        // text: JSON.stringify(payload),
-        text: payload.text,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.ok) {
-          alert("Message sent successfully!");
-        } else {
-          alert(`Error: ${data.description}`);
-        }
-      })
-      .catch((error) => {
-        alert(`Error: ${error}`);
-      });
+      body: JSON.stringify(payload),
+    });
+
+    console.log("Message sent successfully:", response);
   };
 
   return (
@@ -100,13 +82,27 @@ const CreateTrade: NextPage = () => {
         <div className="flex w-full md:w-3/4 lg:w-1/2 flex-col p-[9px] items-center justify-start gap-[18px]">
           <BuyAllHeaderDiv />
           <div className="flex flex-col items-start justify-start gap-[18px] w-full">
-            <ReceiveAddressForm cryptoCurrencyText="BTC" name="currency1Addr" handleOnChange={handleOnChange} value={formState.currency1Addr} />
-            <ReceiveAddressForm cryptoCurrencyText="ETH" name="currency2Addr" handleOnChange={handleOnChange} value={formState.currency2Addr} />
+            <ReceiveAddressForm
+              cryptoCurrencyText="BTC"
+              name="currency1Addr"
+              handleOnChange={handleOnChange}
+              value={formState.currency1Addr}
+            />
+            <ReceiveAddressForm
+              cryptoCurrencyText="ETH"
+              name="currency2Addr"
+              handleOnChange={handleOnChange}
+              value={formState.currency2Addr}
+            />
           </div>
           <ProgressBar striped={true} />
         </div>
         <div className="h-[116px] shrink-0 flex flex-col p-[9px] box-border items-center justify-center gap-[18px]">
-          <Button text="Submit" handleClick={handleSubmit}  classes="bg-primary-main text-black" />
+          <Button
+            text="Submit"
+            handleClick={handleSubmit}
+            classes="bg-primary-main text-black"
+          />
           <Button text="Cancel" classes="bg-secondary-main text-black" />
         </div>
       </div>
