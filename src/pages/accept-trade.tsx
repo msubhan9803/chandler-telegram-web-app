@@ -57,7 +57,7 @@ const CreateTrade: NextPage = () => {
 
     // Set up the request payload
     const payload = {
-      chat_id: "5898044719",
+      chat_id: state.userId,
       message: {
         currency1Addr: formState.currency1Addr,
         currency2Addr: formState.currency2Addr,
