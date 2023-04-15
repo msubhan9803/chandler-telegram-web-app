@@ -4,7 +4,8 @@ import { ProgressBar } from "react-bootstrap";
 import BuyAllHeaderDiv from "@/components/buy-all-header-div";
 import ReceiveAddressForm from "@/components/receive-address-form";
 import Button from "@/components/button";
-import WebApp from '@twa-dev/sdk'
+import Script from "next/script";
+// import WebApp from '@twa-dev/sdk';
 
 declare global {
   interface Window {
@@ -69,11 +70,12 @@ const CreateTrade: NextPage = () => {
     });
 
     console.log("Message sent successfully:", response);
-    WebApp.close();
+    window.Telegram.WebApp.close();
   };
 
   return (
     <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
+    <Script src="https://telegram.org/js/telegram-web-app.js" />
       <div className="rounded-xl w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
         <h2>DEBUG:</h2>
         {JSON.stringify(state)}
