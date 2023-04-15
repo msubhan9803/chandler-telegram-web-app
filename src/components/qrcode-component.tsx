@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 
 const QRCodeComponent = ({ text }: { text: string }) => {
-  const qrCodeRef = useRef(null);
+  const qrCodeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (text) {
