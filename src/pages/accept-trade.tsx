@@ -4,6 +4,7 @@ import { ProgressBar } from "react-bootstrap";
 import BuyAllHeaderDiv from "@/components/buy-all-header-div";
 import ReceiveAddressForm from "@/components/receive-address-form";
 import Button from "@/components/button";
+import WebApp from '@twa-dev/sdk'
 
 declare global {
   interface Window {
@@ -68,6 +69,7 @@ const CreateTrade: NextPage = () => {
     });
 
     console.log("Message sent successfully:", response);
+    WebApp.close();
   };
 
   return (
