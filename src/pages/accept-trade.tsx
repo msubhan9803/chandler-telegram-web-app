@@ -28,7 +28,7 @@ const CreateTrade: NextPage = () => {
   const [telegram, setTelegram] = useState("");
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [showReceiveAddressInfo, setShowReceiveAddressInfo] = useState(true);
+  const [showReceiveAddressInfo, setShowReceiveAddressInfo] = useState(false);
   const [disabledInput, setDisabledInput] = useState({
     currency1Addr: false,
     currency2Addr: false,
