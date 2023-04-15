@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import dynamic from 'next/dynamic';
+
+const QRCodeComponent = dynamic(() => import('@/components/qrcode-component'), {
+  ssr: false,
+});
 
 type PropTypes = {
   amount: string;
@@ -20,6 +25,8 @@ export default function ReceiveAddressInfo({
         </span>
       </div>
       <span className="text-white text-bold text-center mt-2">{address}</span>
+
+      <QRCodeComponent text={address} />
     </div>
   );
 }

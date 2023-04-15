@@ -28,7 +28,7 @@ const CreateTrade: NextPage = () => {
   const [telegram, setTelegram] = useState("");
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [showReceiveAddressInfo, setShowReceiveAddressInfo] = useState(false);
+  const [showReceiveAddressInfo, setShowReceiveAddressInfo] = useState(true);
   const [disabledInput, setDisabledInput] = useState({
     currency1Addr: false,
     currency2Addr: false,
@@ -167,7 +167,7 @@ const CreateTrade: NextPage = () => {
       <Script src="https://telegram.org/js/telegram-web-app.js" />
 
       <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
-        <div className="rounded-xl w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
+        <div className="rounded-xl h-screen w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
           {/* <h2>DEBUG:</h2>
         {JSON.stringify(state)}
         <br />
