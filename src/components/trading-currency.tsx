@@ -10,7 +10,8 @@ export default function CurrencyDisclosuer({
   amount,
   handleDisclosuerClick,
   handleCurrencySelect,
-  handleAmount
+  handleAmount,
+  handleTradingSubmit,
 }: {
   id: any;
   isOpen: any;
@@ -21,6 +22,7 @@ export default function CurrencyDisclosuer({
   handleDisclosuerClick: any;
   handleCurrencySelect: any;
   handleAmount: any;
+  handleTradingSubmit: any;
 }) {
   return (
     <>
@@ -37,11 +39,13 @@ export default function CurrencyDisclosuer({
       {isOpen && (
         <div className="px-4 pt-4 pb-2 text-sm text-gray-500 bg-[#1c1c1c] rounded-3xl">
           <CreateTradeCurrency
+            id={id}
             amount={amount}
             selectedCurrency={selectedCurrency}
             currencyList={currencyList}
             handleCurrencySelect={handleCurrencySelect}
             handleAmount={handleAmount}
+            handleTradingSubmit={handleTradingSubmit}
           />
         </div>
       )}

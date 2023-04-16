@@ -1,12 +1,15 @@
 import Image from "next/image";
 
 export default function CreateTradeCurrency({
+  id,
   selectedCurrency,
   currencyList,
   amount,
   handleCurrencySelect,
   handleAmount,
+  handleTradingSubmit,
 }: {
+  id: any;
   selectedCurrency: any;
   currencyList: Array<{
     image: string;
@@ -15,6 +18,7 @@ export default function CreateTradeCurrency({
   amount: any;
   handleCurrencySelect: (index: number) => void;
   handleAmount: (e: any) => void;
+  handleTradingSubmit: (id: string) => void;
 }) {
   return (
     <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
@@ -95,7 +99,10 @@ export default function CreateTradeCurrency({
           </div>
         </div>
         <button className="cursor-pointer p-2.5 bg-[transparent] rounded-xl flex flex-row items-start justify-start border-[1px] border-solid border-white">
-          <div className="relative text-base font-medium font-montserrat text-white text-left">
+          <div
+            className="relative text-base font-medium font-montserrat text-white text-left"
+            onClick={() => handleTradingSubmit(id)}
+          >
             Confirm
           </div>
         </button>
