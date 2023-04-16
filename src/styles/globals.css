@@ -21,3 +21,14 @@ body {
   background: #1c1c1c !important;
   height: 100vh;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+   -webkit-appearance: none !important;
+   margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+   -moz-appearance: textfield !important;
+}
