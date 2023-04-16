@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSnackbar } from "notistack";
+import Script from "next/script";
 import CurrencyDisclosuer from "@/components/trading-currency";
 
 const currencyList = [
@@ -92,7 +93,7 @@ export default function CreateTrade() {
 
   const handleClose = () => {
     // alert("closing...");
-    window.Telegram.WebApp.close()
+    window.Telegram.WebApp.close();
   };
 
   const handleTradingSubmit = (id: string) => {
@@ -108,7 +109,9 @@ export default function CreateTrade() {
 
       setDisclosures(
         disclosures.map((d) =>
-          d.id === id ? { ...d, isOpen: !d.isOpen } : { ...d, isOpen: !d.isOpen }
+          d.id === id
+            ? { ...d, isOpen: !d.isOpen }
+            : { ...d, isOpen: !d.isOpen }
         )
       );
     } else {
@@ -131,31 +134,42 @@ export default function CreateTrade() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-3xl p-2 space-y-2 bg-[#1e69a0]">
-      {disclosures.map(
-        (
-          { id, isOpen, buttonText, handleCurrencySelect, handleAmount, type },
-          index
-        ) => (
-          <CurrencyDisclosuer
-            key={index}
-            id={id}
-            isOpen={isOpen}
-            buttonText={buttonText}
-            currencyList={currencyList}
-            selectedCurrency={
-              type === "trading"
-                ? selectedTradingCurrency
-                : selectedSeekingCurrency
-            }
-            amount={type === "trading" ? tradingAmount : seekingAmount}
-            handleDisclosuerClick={handleDisclosuerClick}
-            handleCurrencySelect={handleCurrencySelect}
-            handleAmount={handleAmount}
-            handleTradingSubmit={handleTradingSubmit}
-          />
-        )
-      )}
-    </div>
+    <>
+      <Script src="https://telegram.org/js/telegram-web-app.js" />
+
+      <div className="mx-auto w-full max-w-md rounded-3xl p-2 space-y-2 bg-[#1e69a0]">
+        {disclosures.map(
+          (
+            {
+              id,
+              isOpen,
+              buttonText,
+              handleCurrencySelect,
+              handleAmount,
+              type,
+            },
+            index
+          ) => (
+            <CurrencyDisclosuer
+              key={index}
+              id={id}
+              isOpen={isOpen}
+              buttonText={buttonText}
+              currencyList={currencyList}
+              selectedCurrency={
+                type === "trading"
+                  ? selectedTradingCurrency
+                  : selectedSeekingCurrency
+              }
+              amount={type === "trading" ? tradingAmount : seekingAmount}
+              handleDisclosuerClick={handleDisclosuerClick}
+              handleCurrencySelect={handleCurrencySelect}
+              handleAmount={handleAmount}
+              handleTradingSubmit={handleTradingSubmit}
+            />
+          )
+        )}
+      </div>
+    </>
   );
 }
