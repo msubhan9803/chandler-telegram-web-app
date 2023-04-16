@@ -91,8 +91,8 @@ export default function CreateTrade() {
   ]);
 
   const handleClose = () => {
-    alert("closing...");
-    // window.Telegram.WebApp.close()
+    // alert("closing...");
+    window.Telegram.WebApp.close()
   };
 
   const handleTradingSubmit = (id: string) => {
