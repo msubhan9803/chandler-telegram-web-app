@@ -20,6 +20,10 @@ const CreateTrade: NextPage = () => {
     userId: "",
     username: "",
     chatId: "",
+    currencyA: "",
+    currencyB: "",
+    amountCurrencyA: "",
+    amountCurrencyB: "",
   });
   const [formState, setFormState] = useState({
     currency1Addr: "",
@@ -45,11 +49,19 @@ const CreateTrade: NextPage = () => {
       const userId = urlParams.get("userId") as string;
       const username = urlParams.get("username") as string;
       const chatId = urlParams.get("chatId") as string;
+      const currencyA = urlParams.get("currencyA") as string;
+      const currencyB = urlParams.get("currencyB") as string;
+      const amountCurrencyA = urlParams.get("amountCurrencyA") as string;
+      const amountCurrencyB = urlParams.get("amountCurrencyB") as string;
 
       setState({
         userId,
         username,
         chatId,
+        currencyA,
+        currencyB,
+        amountCurrencyA,
+        amountCurrencyB,
       });
     }
 
@@ -132,18 +144,18 @@ const CreateTrade: NextPage = () => {
 
     console.log("Message sent successfully:", response);
     if (response.status === 200) {
-      enqueueSnackbar("Submitted!", { variant: 'success' });
+      enqueueSnackbar("Submitted!", { variant: "success" });
 
       setTimeout(() => {
         closeSnackbar();
         handleClose();
-      }, 2000)
+      }, 2000);
     }
   };
 
   const handleClose = () => {
     // alert("closing...");
-    window.Telegram.WebApp.close()
+    window.Telegram.WebApp.close();
   };
 
   const getSubmitButtonHandler = (e: Event) => {
@@ -168,10 +180,10 @@ const CreateTrade: NextPage = () => {
 
       <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
         <div className="rounded-xl h-screen w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
-          {/* <h2>DEBUG:</h2>
-        {JSON.stringify(state)}
-        <br />
-        <hr /> */}
+          <h2 className="text-white">DEBUG:</h2>
+          <p className="text-white">{JSON.stringify(state)}</p>
+          <br />
+          <hr />
 
           <div className="flex w-full md:w-3/4 lg:w-1/2 flex-col p-[9px] items-center justify-start gap-[18px]">
             <BuyAllHeaderDiv />
