@@ -20,10 +20,9 @@ const CreateTrade: NextPage = () => {
     userId: "",
     username: "",
     chatId: "",
+    trade_id: "",
     currencyA: "",
     currencyB: "",
-    amountCurrencyA: "",
-    amountCurrencyB: "",
   });
   const [formState, setFormState] = useState({
     currency1Addr: "",
@@ -49,19 +48,17 @@ const CreateTrade: NextPage = () => {
       const userId = urlParams.get("userId") as string;
       const username = urlParams.get("username") as string;
       const chatId = urlParams.get("chatId") as string;
+      const trade_id = urlParams.get("trade_id") as string;
       const currencyA = urlParams.get("currencyA") as string;
       const currencyB = urlParams.get("currencyB") as string;
-      const amountCurrencyA = urlParams.get("amountCurrencyA") as string;
-      const amountCurrencyB = urlParams.get("amountCurrencyB") as string;
 
       setState({
         userId,
         username,
         chatId,
+        trade_id,
         currencyA,
         currencyB,
-        amountCurrencyA,
-        amountCurrencyB,
       });
     }
 
