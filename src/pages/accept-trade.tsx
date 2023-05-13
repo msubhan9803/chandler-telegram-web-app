@@ -41,43 +41,6 @@ const CreateTrade: NextPage = () => {
     currency2Addr: "",
   });
 
-  useEffect(() => {
-    if (window.location.search) {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      const userId = urlParams.get("userId") as string;
-      const username = urlParams.get("username") as string;
-      const chatId = urlParams.get("chatId") as string;
-      const trade_id = urlParams.get("trade_id") as string;
-      const currencyA = urlParams.get("currencyA") as string;
-      const currencyB = urlParams.get("currencyB") as string;
-
-      setState({
-        userId,
-        username,
-        chatId,
-        trade_id,
-        currencyA,
-        currencyB,
-      });
-    }
-
-    if (window.Telegram) {
-      setTelegram(window.Telegram);
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log(errorState);
-  }, [errorState]);
-
-  const handleOnChange = (e: any) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   function validateForm() {
     let newErrorState = { ...errorState };
 
@@ -169,6 +132,43 @@ const CreateTrade: NextPage = () => {
     } else {
       return hanldePrev();
     }
+  };
+
+  useEffect(() => {
+    if (window.location.search) {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      const userId = urlParams.get("userId") as string;
+      const username = urlParams.get("username") as string;
+      const chatId = urlParams.get("chatId") as string;
+      const trade_id = urlParams.get("trade_id") as string;
+      const currencyA = urlParams.get("currencyA") as string;
+      const currencyB = urlParams.get("currencyB") as string;
+
+      setState({
+        userId,
+        username,
+        chatId,
+        trade_id,
+        currencyA,
+        currencyB,
+      });
+    }
+
+    if (window.Telegram) {
+      setTelegram(window.Telegram);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(errorState);
+  }, [errorState]);
+
+  const handleOnChange = (e: any) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (

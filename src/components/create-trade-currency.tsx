@@ -8,6 +8,8 @@ export default function CreateTradeCurrency({
   handleCurrencySelect,
   handleAmount,
   handleTradingSubmit,
+  loading,
+  showLoader
 }: {
   id: any;
   selectedCurrency: any;
@@ -16,9 +18,11 @@ export default function CreateTradeCurrency({
     label: string;
   }>;
   amount: any;
-  handleCurrencySelect: (index: number) => void;
+  handleCurrencySelect: (index: number, currency: string) => void;
   handleAmount: (e: any) => void;
   handleTradingSubmit: (id: string) => void;
+  loading: boolean;
+  showLoader: boolean;
 }) {
   return (
     <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
@@ -51,7 +55,7 @@ export default function CreateTradeCurrency({
                         : "border-zinc-700"
                     }
                 `}
-              onClick={() => handleCurrencySelect(index)}
+              onClick={() => handleCurrencySelect(index, currency.label)}
             >
               <Image
                 width={100}
@@ -98,12 +102,33 @@ export default function CreateTradeCurrency({
             </div>
           </div>
         </div>
-        <button className="cursor-pointer p-2.5 bg-[transparent] rounded-xl flex flex-row items-start justify-start border-[1px] border-solid border-white">
+        <button
+          disabled={loading}
+          className="
+            cursor-pointer
+            p-2.5
+            bg-[transparent]
+            disabled:bg-slate-400
+            rounded-xl
+            flex
+            flex-row
+            items-start
+            justify-start
+            border-[1px]
+            border-solid
+            border-white
+          "
+        >
           <div
             className="relative text-base font-medium font-montserrat text-white text-left"
             onClick={() => handleTradingSubmit(id)}
           >
-            Confirm
+            <div className="flex justify-center items-center">
+              <span>Confirm</span>
+              {loading && showLoader && (
+                <div className="ml-2 animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-purple-500"></div>
+              )}
+            </div>
           </div>
         </button>
       </div>

@@ -12,6 +12,8 @@ export default function CurrencyDisclosuer({
   handleCurrencySelect,
   handleAmount,
   handleTradingSubmit,
+  loading,
+  showLoader,
 }: {
   id: any;
   isOpen: any;
@@ -23,6 +25,8 @@ export default function CurrencyDisclosuer({
   handleCurrencySelect: any;
   handleAmount: any;
   handleTradingSubmit: any;
+  loading: boolean;
+  showLoader: boolean;
 }) {
   return (
     <>
@@ -46,6 +50,8 @@ export default function CurrencyDisclosuer({
             handleCurrencySelect={handleCurrencySelect}
             handleAmount={handleAmount}
             handleTradingSubmit={handleTradingSubmit}
+            loading={loading}
+            showLoader={showLoader}
           />
         </div>
       )}
