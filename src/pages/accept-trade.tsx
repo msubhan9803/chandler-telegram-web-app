@@ -36,6 +36,10 @@ const CreateTrade: NextPage = () => {
     currency1Addr: false,
     currency2Addr: false,
   });
+  const [imagesState, setImagesState] = useState({
+    image1: "",
+    image2: "",
+  });
   const [errorState, setErrorState] = useState({
     currency1Addr: "",
     currency2Addr: "",
@@ -62,19 +66,38 @@ const CreateTrade: NextPage = () => {
     return !(newErrorState.currency1Addr || newErrorState.currency2Addr);
   }
 
-  const handleNext = (e: Event) => {
+  const handleNext = async (e: Event) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
 
-    setProgress(50);
-    setDisabledInput({
-      currency1Addr: true,
-      currency2Addr: true,
-    });
-    setShowReceiveAddressInfo(true);
-    setStep(1);
+    const payload = {
+      tradeId: state.trade_id,
+      providerId: state.userId,
+    };
+
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/add-trader`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        setProgress(50);
+        setDisabledInput({
+          currency1Addr: true,
+          currency2Addr: true,
+        });
+        setShowReceiveAddressInfo(true);
+        setStep(1);
+      })
+      .catch((err) => {
+        enqueueSnackbar("Request not fullfiled successfully!", {
+          variant: "error",
+        });
+      });
   };
 
   const hanldePrev = () => {
@@ -90,27 +113,35 @@ const CreateTrade: NextPage = () => {
   const handleSubmit = async () => {
     // Set up the request payload
     const payload = {
-      chat_id: state.chatId,
-      message: {
-        currency1Addr: formState.currency1Addr,
-        currency2Addr: formState.currency2Addr,
-      },
+      tradeId: state.trade_id,
+      endpoint: "http://localhost:3000/escrow-response",
+      providerId: state.userId,
+      providerName: state.username,
+      providerWalletAddress: formState.currency1Addr,
+      receiverWalletAddress: formState.currency2Addr,
+      userSource: "telegram",
     };
 
-    const response = await fetch("/api/accept-trade", {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/add-trader`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(payload),
-    });
+    })
+      .then((res) => {
+        enqueueSnackbar("Escrow in progress!", { variant: "info" });
 
-    console.log("Message sent successfully:", response);
-    if (response.status === 200) {
-      enqueueSnackbar("Submitted!", { variant: "success" });
-
-      setTimeout(() => {
-        closeSnackbar();
-        handleClose();
-      }, 2000);
-    }
+        setTimeout(() => {
+          closeSnackbar();
+          handleClose();
+        }, 2000);
+      })
+      .catch((err) => {
+        enqueueSnackbar("Request not fullfiled successfully!", {
+          variant: "error",
+        });
+      });
   };
 
   const handleClose = () => {
@@ -153,6 +184,8 @@ const CreateTrade: NextPage = () => {
         currencyA,
         currencyB,
       });
+
+      handleGetAssets(currencyA, currencyB);
     }
 
     if (window.Telegram) {
@@ -160,9 +193,23 @@ const CreateTrade: NextPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(errorState);
-  }, [errorState]);
+  const handleGetAssets = async (currencyA: string, currencyB: string) => {
+    const listOfAssets = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`
+    ).then((res: any) => res.json());
+
+    const currencyOne = listOfAssets.asset_list.find(
+      (elem: any) => elem.label.toLowerCase() === currencyA
+    );
+    const currencyTwo = listOfAssets.asset_list.find(
+      (elem: any) => elem.label.toLowerCase() === currencyB
+    );
+
+    setImagesState({
+      image1: currencyOne.image,
+      image2: currencyTwo.image,
+    });
+  };
 
   const handleOnChange = (e: any) => {
     setFormState({
@@ -177,13 +224,13 @@ const CreateTrade: NextPage = () => {
 
       <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
         <div className="rounded-xl h-screen w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
-          <h2 className="text-white">DEBUG:</h2>
+          {/* <h2 className="text-white">DEBUG:</h2>
           <p className="text-white">{JSON.stringify(state)}</p>
           <br />
-          <hr />
+          <hr /> */}
 
           <div className="flex w-full md:w-3/4 lg:w-1/2 flex-col p-[9px] items-center justify-start gap-[18px]">
-            <BuyAllHeaderDiv />
+            <BuyAllHeaderDiv imagesState={imagesState} />
 
             <div className="flex flex-col items-start justify-start gap-[18px] w-full">
               <div className="relative text-lg font-montserrat text-white text-left">

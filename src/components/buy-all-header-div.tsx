@@ -1,7 +1,14 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 
-const BuyAllHeaderDiv: NextPage = () => {
+const BuyAllHeaderDiv = ({
+  imagesState,
+}: {
+  imagesState: {
+    image1: string;
+    image2: string;
+  };
+}) => {
   return (
     <div className="w-full md:1/4 rounded-lg bg-zinc-700 shadow-md flex flex-col p-[9px] items-center justify-start gap-[9px] text-left text-base text-white font-montserrat">
       <div className="flex flex-col items-start justify-center gap-[9px]">
@@ -10,29 +17,33 @@ const BuyAllHeaderDiv: NextPage = () => {
             Buy All Trade
           </h4>
         </div>
-        <div className="flex flex-row items-center justify-center gap-[9px]">
-          <Image
-            className="max-w-full overflow-hidden max-h-full object-cover"
-            alt=""
-            src="/bitcoin-1-2@2x.png"
-            width="30"
-            height="30"
-          />
-          <Image
-            className="max-w-full overflow-hidden max-h-full object-cover"
-            alt=""
-            src="/arrowright-1@2x.png"
-            width="30"
-            height="30"
-          />
-          <Image
-            className="max-w-full overflow-hidden max-h-full object-cover"
-            alt=""
-            src="/ethereum-1-1@2x.png"
-            width="30"
-            height="30"
-          />
-        </div>
+        {imagesState.image1 && imagesState.image2 && (
+          <div className="flex flex-row items-center justify-center gap-[9px]">
+            <Image
+              className="max-w-full overflow-hidden max-h-full object-cover"
+              alt=""
+              src={process.env.NEXT_PUBLIC_BACKEND_URL + imagesState.image1}
+              width="30"
+              height="30"
+              loading="lazy"
+            />
+            <Image
+              className="max-w-full overflow-hidden max-h-full object-cover"
+              alt=""
+              src="/arrowright-1@2x.png"
+              width="30"
+              height="30"
+            />
+            <Image
+              className="max-w-full overflow-hidden max-h-full object-cover"
+              alt=""
+              src={process.env.NEXT_PUBLIC_BACKEND_URL + imagesState.image2}
+              width="30"
+              height="30"
+              loading="lazy"
+            />
+          </div>
+        )}
       </div>
       <div className="flex flex-col items-center justify-end text-sm">
         <div className="flex flex-col items-start justify-center gap-[9px]">
