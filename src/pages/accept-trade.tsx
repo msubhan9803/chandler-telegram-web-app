@@ -44,6 +44,8 @@ const CreateTrade: NextPage = () => {
     currency1Addr: "",
     currency2Addr: "",
   });
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(false);
 
   function validateForm() {
     let newErrorState = { ...errorState };
@@ -71,6 +73,7 @@ const CreateTrade: NextPage = () => {
     if (!validateForm()) {
       return;
     }
+    setSubmitLoading(true);
 
     const payload = {
       tradeId: state.trade_id,
@@ -85,6 +88,7 @@ const CreateTrade: NextPage = () => {
       body: JSON.stringify(payload),
     })
       .then((res) => {
+        setSubmitLoading(false);
         setProgress(50);
         setDisabledInput({
           currency1Addr: true,
@@ -94,23 +98,39 @@ const CreateTrade: NextPage = () => {
         setStep(1);
       })
       .catch((err) => {
+        setSubmitLoading(false);
         enqueueSnackbar("Request not fullfiled successfully!", {
           variant: "error",
         });
       });
   };
 
-  const hanldePrev = () => {
-    setProgress(0);
-    setDisabledInput({
-      currency1Addr: false,
-      currency2Addr: false,
-    });
-    setShowReceiveAddressInfo(false);
-    setStep(0);
+  const hanldePrev = async () => {
+    setCancelLoading(true);
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${state.trade_id}`, {
+      method: "POST",
+    })
+      .then(res => res.json())
+      .then((res) => {
+        setCancelLoading(false);
+        enqueueSnackbar(res.message, { variant: "info" });
+
+        setTimeout(() => {
+          closeSnackbar();
+          handleClose();
+        }, 2000);
+      })
+      .catch((err) => {
+        setCancelLoading(false);
+        enqueueSnackbar("Request not fullfiled successfully!", {
+          variant: "error",
+        });
+      });
   };
 
   const handleSubmit = async () => {
+    setSubmitLoading(true);
+
     // Set up the request payload
     const payload = {
       tradeId: state.trade_id,
@@ -130,6 +150,7 @@ const CreateTrade: NextPage = () => {
       body: JSON.stringify(payload),
     })
       .then((res) => {
+        setSubmitLoading(false);
         enqueueSnackbar("Escrow in progress!", { variant: "info" });
 
         setTimeout(() => {
@@ -138,6 +159,7 @@ const CreateTrade: NextPage = () => {
         }, 2000);
       })
       .catch((err) => {
+        setSubmitLoading(false);
         enqueueSnackbar("Request not fullfiled successfully!", {
           variant: "error",
         });
@@ -270,12 +292,14 @@ const CreateTrade: NextPage = () => {
             <Button
               text="Submit"
               handleClick={getSubmitButtonHandler}
-              classes="bg-primary-main text-black"
+              classes="bg-primary-main disabled:bg-primary-light text-black"
+              loading={submitLoading}
             />
             <Button
               text="Cancel"
               handleClick={getCancelButtonHandler}
-              classes="bg-secondary-main text-black"
+              classes="bg-secondary-main disabled:bg-secondary-light text-black"
+              loading={cancelLoading}
             />
           </div>
         </div>
