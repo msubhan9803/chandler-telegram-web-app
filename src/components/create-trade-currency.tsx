@@ -28,7 +28,7 @@ export default function CreateTradeCurrency({
   return (
     <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
       <div className="flex flex-col items-center justify-center gap-[18px]">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
           {currencyList.map((currency, index) => (
             <button
               key={index}

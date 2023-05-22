@@ -3,45 +3,6 @@ import { useSnackbar } from "notistack";
 import Script from "next/script";
 import CurrencyDisclosuer from "@/components/trading-currency";
 
-const currencyList = [
-  {
-    label: "BTC",
-    image: "/btc.svg",
-  },
-  {
-    label: "ETH",
-    image: "/eth.svg",
-  },
-  {
-    label: "BUSD",
-    image: "/busd.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-10-1.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-11-1.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-7-1.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-2-1.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-15-1.svg",
-  },
-  {
-    label: "TEST",
-    image: "/coin-12-1.svg",
-  },
-];
-
 export default function CreateTrade() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [selectedTradingCurrency, setSelectedTradingCurrency] = useState<{
@@ -67,6 +28,7 @@ export default function CreateTrade() {
     chatId: "",
   });
   const [loading, setLoading] = useState(false);
+  const [currencyList, setCurrencyList] = useState([])
 
   const handleDisclosuerClick = (id: any) => {
     setDisclosures(
@@ -202,6 +164,16 @@ export default function CreateTrade() {
     }
   };
 
+  const getCurrencyList = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`)
+      .then(response => response.json())
+      .then((result: any) => {
+        debugger
+        setCurrencyList(result.asset_list)
+      })
+      .catch(error => console.log('error', error));
+  }
+
   useEffect(() => {
     if (window.location.search) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -216,6 +188,8 @@ export default function CreateTrade() {
         chatId,
       });
     }
+
+    getCurrencyList();
   }, []);
 
   return (
