@@ -33,7 +33,7 @@ export default function CreateTradeCurrency({
             <button
               key={index}
               className={`
-                    ${selectedCurrency === index ? "bg-zinc-600" : "bg-none"}
+                    ${selectedCurrency.index === index ? "bg-zinc-600" : "bg-none"}
                     cursor-pointe
                     py-[5px]
                     px-[7.5px]
@@ -51,7 +51,7 @@ export default function CreateTradeCurrency({
                     border-[2.5px]
                     border-solid
                     ${
-                      selectedCurrency === index
+                      selectedCurrency.index === index
                         ? "border-zinc-400"
                         : "border-zinc-700"
                     }
@@ -66,7 +66,7 @@ export default function CreateTradeCurrency({
                 src={currency.image}
               />
               <div className="relative text-sm font-light font-montserrat text-white text-left">
-                {currency.label}
+                {currency.label.toUpperCase()}
               </div>
             </button>
           ))}
@@ -91,7 +91,7 @@ export default function CreateTradeCurrency({
                 value={amount}
                 onChange={handleAmount}
               />
-              <div className="relative">BTC</div>
+              <div className="relative">{selectedCurrency.currency.toUpperCase() || ""}</div>
             </div>
           </div>
           <div className="flex flex-row p-[9px] items-start justify-start gap-[18px]">

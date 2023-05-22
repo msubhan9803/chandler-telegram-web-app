@@ -28,7 +28,7 @@ export default function CreateTrade() {
     chatId: "",
   });
   const [loading, setLoading] = useState(false);
-  const [currencyList, setCurrencyList] = useState([])
+  const [currencyList, setCurrencyList] = useState([]);
 
   const handleDisclosuerClick = (id: any) => {
     setDisclosures(
@@ -131,8 +131,10 @@ export default function CreateTrade() {
         cryptoTwoAmount: seekingAmount,
         providerId: state.userId,
         providerName: state.username,
-        providerWalletAddress: "0x1111111111111111111111111111111111111111",
-        receiverWalletAddress: "0x3333333333333333333333333333333333333333",
+        providerWalletAddress:
+          "kaspa:qpucux6gk78fafrwex4v9dfc8y38fhnaa5tyhfr9etrxgmsaketa7lthh7kzt",
+        receiverWalletAddress:
+          "d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF",
         userSource: "telegram",
       };
 
@@ -166,13 +168,12 @@ export default function CreateTrade() {
 
   const getCurrencyList = () => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((result: any) => {
-        debugger
-        setCurrencyList(result.asset_list)
+        setCurrencyList(result.asset_list);
       })
-      .catch(error => console.log('error', error));
-  }
+      .catch((error) => console.log("error", error));
+  };
 
   useEffect(() => {
     if (window.location.search) {
@@ -217,8 +218,8 @@ export default function CreateTrade() {
               currencyList={currencyList}
               selectedCurrency={
                 type === "trading"
-                  ? selectedTradingCurrency.index
-                  : selectedSeekingCurrency.index
+                  ? selectedTradingCurrency
+                  : selectedSeekingCurrency
               }
               amount={type === "trading" ? tradingAmount : seekingAmount}
               handleDisclosuerClick={handleDisclosuerClick}
