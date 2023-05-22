@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
+import crypto from 'crypto';
 import BuyAllHeaderDiv from "@/components/buy-all-header-div";
 import ReceiveAddressForm from "@/components/receive-address-form";
 import Button from "@/components/button";
@@ -46,6 +47,27 @@ const CreateTrade: NextPage = () => {
   });
   const [submitLoading, setSubmitLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
+  const [tradeDetails, setTradeDetails] = useState({
+    _id: "",
+    tradeType: "",
+    cryptoOne: {
+      amount: "",
+      name: "",
+      providerId: "",
+      providerName: "",
+      providerWalletAddress: "",
+      userSource: "",
+    },
+    cryptoTwo: {
+      amount: "",
+      name: "",
+      receiverWalletAddress: "",
+    },
+    active: true,
+    timestamp: "",
+    traders: [],
+    tradeId: "",
+  });
 
   function validateForm() {
     let newErrorState = { ...errorState };
@@ -107,10 +129,13 @@ const CreateTrade: NextPage = () => {
 
   const hanldePrev = async () => {
     setCancelLoading(true);
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${state.trade_id}`, {
-      method: "POST",
-    })
-      .then(res => res.json())
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${state.trade_id}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((res) => res.json())
       .then((res) => {
         setCancelLoading(false);
         enqueueSnackbar(res.message, { variant: "info" });
@@ -131,18 +156,20 @@ const CreateTrade: NextPage = () => {
   const handleSubmit = async () => {
     setSubmitLoading(true);
 
+    const guid = crypto.randomBytes(16).toString('hex');
     // Set up the request payload
     const payload = {
       tradeId: state.trade_id,
-      endpoint: "http://localhost:3000/escrow-response",
+      endpoint: "http://localhost:3000/escrow-response/" + guid,
       providerId: state.userId,
       providerName: state.username,
       providerWalletAddress: formState.currency1Addr,
       receiverWalletAddress: formState.currency2Addr,
       userSource: "telegram",
     };
+    debugger;
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/add-trader`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -187,6 +214,39 @@ const CreateTrade: NextPage = () => {
     }
   };
 
+  const handleGetAssets = async (currencyA: string, currencyB: string) => {
+    const listOfAssets = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`
+    ).then((res: any) => res.json());
+
+    const currencyOne = listOfAssets.asset_list.find(
+      (elem: any) => elem.label.toLowerCase() === currencyA
+    );
+    const currencyTwo = listOfAssets.asset_list.find(
+      (elem: any) => elem.label.toLowerCase() === currencyB
+    );
+
+    setImagesState({
+      image1: currencyOne.image,
+      image2: currencyTwo.image,
+    });
+  };
+
+  const handleTradeDetailsFetch = async (trade_id: string) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details/${trade_id}`
+    ).then((res: any) => res.json());
+
+    setTradeDetails(response.tradeDetailsResult);
+  };
+
+  const handleOnChange = (e: any) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   useEffect(() => {
     if (window.location.search) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -208,37 +268,14 @@ const CreateTrade: NextPage = () => {
       });
 
       handleGetAssets(currencyA, currencyB);
+
+      handleTradeDetailsFetch(trade_id);
     }
 
     if (window.Telegram) {
       setTelegram(window.Telegram);
     }
   }, []);
-
-  const handleGetAssets = async (currencyA: string, currencyB: string) => {
-    const listOfAssets = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`
-    ).then((res: any) => res.json());
-
-    const currencyOne = listOfAssets.asset_list.find(
-      (elem: any) => elem.label.toLowerCase() === currencyA
-    );
-    const currencyTwo = listOfAssets.asset_list.find(
-      (elem: any) => elem.label.toLowerCase() === currencyB
-    );
-
-    setImagesState({
-      image1: currencyOne.image,
-      image2: currencyTwo.image,
-    });
-  };
-
-  const handleOnChange = (e: any) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   return (
     <>
@@ -252,11 +289,14 @@ const CreateTrade: NextPage = () => {
           <hr /> */}
 
           <div className="flex w-full md:w-3/4 lg:w-1/2 flex-col p-[9px] items-center justify-start gap-[18px]">
-            <BuyAllHeaderDiv imagesState={imagesState} />
+            <BuyAllHeaderDiv
+              tradeDetails={tradeDetails}
+              imagesState={imagesState}
+            />
 
             <div className="flex flex-col items-start justify-start gap-[18px] w-full">
               <div className="relative text-lg font-montserrat text-white text-left">
-                BTC Receive Address
+                {tradeDetails.cryptoTwo.name.toUpperCase()} Address
               </div>
               <ReceiveAddressForm
                 name="currency1Addr"
@@ -264,10 +304,11 @@ const CreateTrade: NextPage = () => {
                 value={formState.currency1Addr}
                 error={errorState.currency1Addr}
                 disabled={disabledInput.currency1Addr}
+                placeholder="i.e d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF"
               />
 
               <div className="relative text-lg font-montserrat text-white text-left">
-                ETH Receive Address
+                {tradeDetails.cryptoOne.name.toUpperCase()} Address
               </div>
               <ReceiveAddressForm
                 name="currency2Addr"
@@ -275,6 +316,7 @@ const CreateTrade: NextPage = () => {
                 value={formState.currency2Addr}
                 error={errorState.currency2Addr}
                 disabled={disabledInput.currency2Addr}
+                placeholder="i.e kaspa:4v9dfc8y38fhnaa5tyhfr9etrxqpucux6gk78fafrwexgmsaketa7lthh7kzt"
               />
             </div>
 
@@ -283,7 +325,7 @@ const CreateTrade: NextPage = () => {
             {showReceiveAddressInfo && (
               <ReceiveAddressInfo
                 amount="0.05650702"
-                currency="BTC"
+                currency={tradeDetails.cryptoOne.name.toUpperCase()}
                 address="cbb8bf04-0b53-49d4-bc2d-367afa7194ba"
               />
             )}

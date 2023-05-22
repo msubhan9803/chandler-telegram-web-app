@@ -11,6 +11,7 @@ type ReceiveAddressFormType = {
   propWidth?: Property.Width;
   handleOnChange?: (e: any) => void;
   error: string;
+  placeholder: string;
   disabled: boolean;
 };
 
@@ -22,6 +23,7 @@ const ReceiveAddressForm: NextPage<ReceiveAddressFormType> = ({
   propWidth,
   error,
   disabled,
+  placeholder,
   handleOnChange,
 }) => {
   const frameInputStyle: CSS.Properties = useMemo(() => {
@@ -54,6 +56,7 @@ const ReceiveAddressForm: NextPage<ReceiveAddressFormType> = ({
           ${!error ? 'border-zinc-700' : 'border-red-500'}
         `}
         type="text"
+        placeholder={placeholder}
         name={name}
         value={value}
         style={frameInputStyle}
