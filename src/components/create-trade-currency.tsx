@@ -10,7 +10,7 @@ export default function CreateTradeCurrency({
   handleAmount,
   handleTradingSubmit,
   loading,
-  showLoader
+  showLoader,
 }: {
   id: any;
   selectedCurrency: any;
@@ -27,50 +27,61 @@ export default function CreateTradeCurrency({
 }) {
   return (
     <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
-      <div className="flex flex-col items-center justify-center gap-[18px]">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
-          {currencyList.map((currency, index) => (
-            <button
-              key={index}
-              className={`
-                    ${selectedCurrency.index === index ? "bg-zinc-600" : "bg-none"}
-                    cursor-pointe
-                    py-[5px]
-                    px-[7.5px]
-                    bg-[transparent]
-                    rounded-lg
-                    shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]
-                    box-border
-                    w-[105px]
-                    shrink-0
-                    flex
-                    flex-row
-                    items-center
-                    justify-center
-                    gap-[10px]
-                    border-[2.5px]
-                    border-solid
-                    ${
-                      selectedCurrency.index === index
-                        ? "border-zinc-400"
-                        : "border-zinc-700"
-                    }
-                `}
-              onClick={() => handleCurrencySelect(index, currency.label)}
-            >
-              <Image
-                width={100}
-                height={100}
-                className="relative w-9 h-9 shrink-0 overflow-hidden"
-                alt=""
-                src={currency.image}
-              />
-              <div className="relative text-sm font-light font-montserrat text-white text-left">
-                {currency.label.toUpperCase()}
-              </div>
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-col items-center justify-center gap-[18px] m-auto">
+        {
+        currencyList.length === 0 ? (
+          <div className="h-96 flex justify-center items-center m-auto">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
+            {currencyList.map((currency, index) => (
+              <button
+                key={index}
+                className={`
+                      ${
+                        selectedCurrency.index === index
+                          ? "bg-zinc-600"
+                          : "bg-none"
+                      }
+                      cursor-pointe
+                      py-[5px]
+                      px-[7.5px]
+                      bg-[transparent]
+                      rounded-lg
+                      shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]
+                      box-border
+                      w-[105px]
+                      shrink-0
+                      flex
+                      flex-row
+                      items-center
+                      justify-center
+                      gap-[10px]
+                      border-[2.5px]
+                      border-solid
+                      ${
+                        selectedCurrency.index === index
+                          ? "border-zinc-400"
+                          : "border-zinc-700"
+                      }
+                  `}
+                onClick={() => handleCurrencySelect(index, currency.label)}
+              >
+                <Image
+                  width={100}
+                  height={100}
+                  className="relative w-9 h-9 shrink-0 overflow-hidden"
+                  alt=""
+                  src={currency.image}
+                />
+                <div className="relative text-sm font-light font-montserrat text-white text-left">
+                  {currency.label.toUpperCase()}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
         <div className="flex flex-col items-end justify-start">
           <div className="flex flex-col items-start justify-start gap-3">
             <div className="flex flex-row items-center justify-start space-x-4">
@@ -91,7 +102,9 @@ export default function CreateTradeCurrency({
                 value={amount}
                 onChange={handleAmount}
               />
-              <div className="relative">{selectedCurrency.currency.toUpperCase() || ""}</div>
+              <div className="relative">
+                {selectedCurrency.currency.toUpperCase() || ""}
+              </div>
             </div>
           </div>
           <div className="flex flex-row p-[9px] items-start justify-start gap-[18px]">
@@ -126,9 +139,7 @@ export default function CreateTradeCurrency({
           >
             <div className="flex justify-center items-center">
               <span>Confirm</span>
-              {loading && showLoader && (
-                <Spinner />
-              )}
+              {loading && showLoader && <Spinner />}
             </div>
           </div>
         </button>
