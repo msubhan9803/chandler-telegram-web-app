@@ -2,10 +2,10 @@ import React from "react";
 import Spinner from "./spinner";
 
 type PropTypes = {
-  text: string;
-  classes: string;
+  text?: string;
+  classes?: string;
   handleClick?: (e: any) => void;
-  loading: boolean;
+  loading?: boolean;
 }
 
 export default function Button({ text, classes, handleClick, loading }: PropTypes) {
