@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import XMarkIcon from "@heroicons/react/20/solid/XMarkIcon";  // import the XIcon from heroicons
 import AcceptTradeComponent from "./accept-trade-component";
 
 export default function StartTradeModel({
@@ -39,7 +40,13 @@ export default function StartTradeModel({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full m-auto max-w-md transform overflow-hidden rounded-2xl bg-[#1c1c1c] text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full m-auto max-w-md transform overflow-hidden rounded-2xl bg-[#1c1c1c] text-left align-middle shadow-xl transition-all relative">
+                  {/* <button
+                    className="absolute top-2 right-2 rounded-full hover:bg-opacity-50 hover:bg-gray-600 transition cursor-pointer z-50"
+                    onClick={closeModal}
+                  >
+                    <XMarkIcon className="h-5 w-5 text-gray-300 cursor-pointer" />
+                  </button> */}
                   <AcceptTradeComponent
                     state={state}
                     setState={setState}
