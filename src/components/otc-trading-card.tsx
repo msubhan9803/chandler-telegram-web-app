@@ -72,22 +72,21 @@ export default function Otctradingcard({ cardData }: any) {
           </div>
 
           <div className="flex flex-row justify-between">
-            {" "}
             <p className="text-gray-300 ">Ratio: 1:1</p>
             <div className="flex gap-1 text-gray-300 ">
-              Fess:{" "}
+              Fees:
               <Image
                 src={cardData.currency1image}
                 alt=""
                 className="mx-1 h-5 w-5"
                 width={16}
                 height={16}
-              />{" "}
+              />
               2.5%
             </div>
           </div>
 
-          <div className="flex flex-row justify-between ">
+          <div className="flex flex-row justify-between">
             <div className="flex flex-row ">
               <p className="flex flex-row font-thin text-sm text-gray-300 ">
                 Amount:{" "}
@@ -99,13 +98,13 @@ export default function Otctradingcard({ cardData }: any) {
             </div>
 
             <div className="flex flex-row gap-1 my-2 mx-1">
-              {" "}
               <Image
                 src={cardData.currency2image}
                 alt=""
-                width={20}
+                className="mx-1 h-5 w-5"
+                width={16}
                 height={16}
-              />{" "}
+              />
               2.5%
             </div>
           </div>
