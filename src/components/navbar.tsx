@@ -10,12 +10,15 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="px-6 pt-6 lg:px-8">
+      <div className="px-6 p-3 lg:px-8 bg-blue-900 ">
         <nav className="flex items-center justify-between" aria-label="Global">
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5">
               <CalderaLogo />
             </Link>
+          </div>
+          <div>
+            <button className="bg-transparent border-2 border-white text-sm text-white p-2 py-1 rounded-2xl">Log In </button>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -65,7 +68,7 @@ function CalderaLogo() {
   return (
     <Image
       className="h-8"
-      width={100}
+      width={60}
       height={60}
       src="/Caldera-logo.png"
       alt=""
