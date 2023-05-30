@@ -1,15 +1,62 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import MainLayout from '@/layouts/main-layout'
+import React from "react";
+import Filter from "../components/filter-OTC-trading";
+import MainLayout from "@/layouts/main-layout";
+import OtcTradingCard from "../components/otc-trading-card";
 
-const inter = Inter({ subsets: ['latin'] })
+export default function OtcTrading() {
+  const cardObjects = [
+    {
+      title: "Buy All Trade",
+      orders: "N",
+      amount: "0.05657890 BTC",
+      currency1image: "https://caldera.trade/images/coins/btc.png",
+      currency2image: "https://caldera.trade/images/coins/acg.png",
+      isOnline: true,
+    },
+    {
+      title: "Partial Trade",
+      orders: "N",
+      amount: "0.05657890 BTC",
+      currency1image: "https://caldera.trade/images/coins/btc.png",
+      currency2image: "https://caldera.trade/images/coins/acg.png",
+      isOnline: false,
+    },
+    {
+      title: "Buy All Trade",
+      orders: "N",
+      amount: "0.05657890 BTC",
+      currency1image: "https://caldera.trade/images/coins/btc.png",
+      currency2image: "https://caldera.trade/images/coins/acg.png",
+      isOnline: true,
+    },
+    {
+      title: "Partial Trade",
+      orders: "N",
+      amount: "0.05657890 BTC",
+      currency1image: "https://caldera.trade/images/coins/btc.png",
+      currency2image: "https://caldera.trade/images/coins/acg.png",
+      isOnline: false,
+    },
+    {
+      title: "Buy All Trade",
+      orders: "N",
+      amount: "0.05657890 BTC",
+      currency1image: "https://caldera.trade/images/coins/btc.png",
+      currency2image: "https://caldera.trade/images/coins/acg.png",
+      isOnline: true,
+    },
+  ];
 
-export default function Home() {
   return (
-    <MainLayout>
-      <h1 className='text-teal-300 py-4'>
-        Mohammad SUbhan
-      </h1>
-    </MainLayout>
-  )
+    <>
+      <MainLayout>
+        <Filter />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
+          {cardObjects.map((card, index) => (
+            <OtcTradingCard key={index} cardData={card} />
+          ))}
+        </div>
+      </MainLayout>
+    </>
+  );
 }

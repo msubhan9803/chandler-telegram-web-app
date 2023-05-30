@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer"
+import Footer from "@/components/footer";
+import Tabs from "@/components/tabs";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   return (
     <>
       <Navbar />
+      <Tabs />
       {children}
       <Footer/>
     </>

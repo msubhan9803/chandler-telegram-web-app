@@ -1,43 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Link from 'next/link';
 
 const Tabs = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabClick = (index) => {
-    setActiveTab(index);
-  };
+  const tabsList = [
+    {
+      label: "OTC Trading",
+      route: "/",
+    },
+    {
+      label: "My Offers",
+      route: "/my-offers",
+    },
+    {
+      label: "OTC Trade Guide",
+      route: "/otc-trade-guide",
+    },
+  ];
 
   return (
-    <div className="w-full">
-      <div className="flex mb-4">
-        <button
-          className={`flex-1 px-4 py-2 text-center ${
-            activeTab === 0 ? 'bg-blue-500 text-white' : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabClick(0)}
-        >
-          Tab 1
-        </button>
-        <button
-          className={`flex-1 px-4 py-2 text-center ${
-            activeTab === 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabClick(1)}
-        >
-          Tab 2
-        </button>
-        <button
-          className={`flex-1 px-4 py-2 text-center ${
-            activeTab === 2 ? 'bg-blue-500 text-white' : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabClick(2)}
-        >
-          Tab 3
-        </button>
-      </div>
-      <div className="bg-gray-200 p-4">
-        {/* Content for each tab */}
-      </div>
+    <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-auto">
+      <ul className="flex flex-wrap -mb-px">
+        {tabsList.map((tab, index) => (
+          <li className="mr-2" key={index}>
+            <Link
+              href={tab.route}
+              className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+            >
+              {tab.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
