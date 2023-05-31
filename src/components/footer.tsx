@@ -50,7 +50,7 @@ const Footer = () => {
             Frequently Asked Questions
           </div>
 
-          <div className="mb-8">
+          <div className="mb-8 grid grid-cols-1 md:grid-rows-2  lg:grid-cols-1 xl:grid-cols-2 ">
             {/* FAQs */}
             {faqs.map((faq, index) => (
               <Disclosure key={index}>

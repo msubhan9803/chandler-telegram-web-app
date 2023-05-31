@@ -17,7 +17,7 @@ export default function OtcTradeGuide() {
     {
       title: "Step 3",
       description:
-        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra. ",
+        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra.",
     },
     {
       title: "Step 4",
@@ -27,7 +27,7 @@ export default function OtcTradeGuide() {
     {
       title: "Step 5",
       description:
-        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra. ",
+        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu augue quis mi luctus convallis. Integer accumsan porta justo eget tincidunt. Sed nec sollicitudin sapien, eget tincidunt dolor. Sed bibendum dignissim ligula. Mauris ac augue ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis commodo maximus diam sit amet hendrerit. Donec eget semper orci, id feugiat orci. Suspendisse at maximus lectus. Phasellus vitae porttitor est. Proin fringilla non ex ac viverra. ",
     },
     {
       title: "Step 6",
@@ -40,11 +40,12 @@ export default function OtcTradeGuide() {
 
   return (
     <MainLayout>
-      <div>
+      <div className="grid grid-row-1 md:grid-row-1 md:mx-24 lg:grid-row-3 lg:mx-28 xl:grid-row-4 xl:mx-40 gap-8 p-4">
+        
         {cardObjects.map((card, index) => (
           <Card key={index} cardData={card} />
         ))}
-        <div className=" bg-neutral-700 h-3 w-full "></div>
+        {/* <div className=" bg-neutral-700 h-3 w-full "></div> */}
       </div>
     </MainLayout>
   );
