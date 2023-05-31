@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-// import { user } from 'react-icons/heroicons-outline';
-
-export default function myofferscard({ cardData }) {
+export default function Myofferscard({ cardData }: any) {
   const [isOnline, setIsOnline] = useState(false);
 
   const handleOnlineClick = () => {
     setIsOnline(true);
   };
+
   return (
     <>
-
-    {/* <OfferButton/> */}
+      {/* <OfferButton/> */}
       <div className="py-1 bg-neutral-700 w-full"></div>
 
       <div className="mx-8 md:mx-4 lg:mx-2 my-1">

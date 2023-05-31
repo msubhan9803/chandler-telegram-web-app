@@ -1,15 +1,15 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
 
-export default function MyModal() {
-  let [isOpen, setIsOpen] = useState(true)
+export default function CreateTradeModel() {
+  let [isOpen, setIsOpen] = useState(true);
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   return (
@@ -79,5 +79,5 @@ export default function MyModal() {
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }

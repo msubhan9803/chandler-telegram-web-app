@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function myoffersbutton() {
+export default function Myoffersbutton() {
   return (
     <>
       <div className="bg-dark-gray py-3 flex justify-center">

@@ -18,7 +18,9 @@ export default function Navbar() {
             </Link>
           </div>
           <div>
-            <button className="bg-transparent border-2 border-white text-sm text-white p-2 py-1 rounded-2xl">Log In </button>
+            <button className="bg-transparent border-2 border-white text-sm text-white p-2 py-1 rounded-2xl">
+              Log In{" "}
+            </button>
           </div>
           <div className="flex lg:hidden">
             <button
