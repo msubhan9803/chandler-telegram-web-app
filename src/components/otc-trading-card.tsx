@@ -7,8 +7,10 @@ export default function Otctradingcard({ cardData, openModal }: any) {
   const [isOnline, setIsOnline] = useState(false);
 
   const handleOnlineClick = () => {
-    setIsOnline(true);
+    setIsOnline(!isOnline);
   };
+
+
 
   return (
     <>
@@ -21,20 +23,26 @@ export default function Otctradingcard({ cardData, openModal }: any) {
           <div className=" flex flex-wrap justify-between text-sm font-normal text-white my-3">
             {cardData.title}
 
-            <div className="flex py-1" onClick={() => handleOnlineClick}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
+            <div className="flex py-1" onClick={handleOnlineClick}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-4 h-4"
+      >
+        <path
+          fillRule="evenodd"
+          d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+          clipRule="evenodd"
+        />
+      </svg>
+      <span
+        className={`top-0 left-7 w-2 h-2 border-2 border-white dark:border-gray-800 rounded-full ${
+          isOnline ? 'bg-green-400' : 'bg-red-400'
+        }`}
+      ></span>
+    </div>
+           
           </div>
 
           <div className="flex flex-row items-center justify-start gap-[9px] pb-4">
