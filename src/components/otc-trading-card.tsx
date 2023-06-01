@@ -3,21 +3,13 @@ import Image from "next/image";
 import DialogueBox from "../components/dialogue-box-otc-trading";
 import StartTrade from "./start-trade-model";
 
-export default function Otctradingcard({ cardData }: any) {
+export default function Otctradingcard({ cardData, openModal }: any) {
   const [isOnline, setIsOnline] = useState(false);
-  // const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // const handleButtonClick = () => {
-  //   setIsDialogOpen(true);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setIsDialogOpen(false);
-  // };
 
   const handleOnlineClick = () => {
     setIsOnline(true);
   };
+
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
@@ -37,9 +29,9 @@ export default function Otctradingcard({ cardData }: any) {
                 className="w-4 h-4"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             </div>
@@ -110,14 +102,13 @@ export default function Otctradingcard({ cardData }: any) {
           </div>
 
           <div className="flex justify-end mt-3">
-            {/* onClick={handleButtonClick} */}
             <button
               type="button"
               className="text-black bg-yellow-200 hover:bg-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-3 py-1.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900"
+              onClick={openModal}
             >
               Start Trade
             </button>
-            {/* {isDialogOpen && <DialogueBox onClose={handleCloseDialog} />} */}
           </div>
           {/* <p>Users: {cardData.numUsers}</p>
 
