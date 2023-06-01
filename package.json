@@ -20,6 +20,8 @@
     "crypto": "^1.0.1",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.6",
     "next": "13.3.0",
     "notistack": "^3.0.1",
     "qr-code-styling": "^1.6.0-rc.1",
