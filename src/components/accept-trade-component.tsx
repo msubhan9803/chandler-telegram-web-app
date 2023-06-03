@@ -237,7 +237,7 @@ export default function AcceptTradeComponent({
   useEffect(() => {
     if (state.currencyA && state.currencyB && state.trade_id) {
       handleGetAssets(state.currencyA, state.currencyB);
-      handleTradeDetailsFetch(state.trade_id);
+      // handleTradeDetailsFetch(state.trade_id);
     }
   }, [state]);
 

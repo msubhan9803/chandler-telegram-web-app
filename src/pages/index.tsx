@@ -3,7 +3,6 @@ import Filter from "@/components/filter-OTC-trading";
 import MainLayout from "@/layouts/main-layout";
 import OtcTradingCard from "@/components/otc-trading-card";
 import StartTradeModel from "@/components/start-trade-model";
-import CreateTradeModel from "@/components/create-trade-model";
 
 export default function OtcTrading() {
   const cardObjects = [
@@ -113,20 +112,8 @@ export default function OtcTrading() {
           ))}
         </div>
 
-        {state.chatId && (
+        {state.chatId && isOpen && (
           <StartTradeModel
-            isOpen={isOpen}
-            closeModal={closeModal}
-            openModal={openModal}
-            state={state}
-            setState={setState}
-            formState={formState}
-            setFormState={setFormState}
-            handleClose={handleClose}
-          />
-        )}
-        {state.chatId && (
-          <CreateTradeModel
             isOpen={isOpen}
             closeModal={closeModal}
             openModal={openModal}

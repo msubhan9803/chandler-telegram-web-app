@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Spinner from "./spinner";
 
-export default function copycreatetradecurrency({
+export default function CopyCreateTradeCurrency({
   id,
   selectedCurrency,
   currencyList,
@@ -26,13 +26,13 @@ export default function copycreatetradecurrency({
     <>
       <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
         <div className="flex flex-col items-center justify-center gap-[18px] m-auto">
-          {currencyList.length === 0 ? (
+          {currencyList?.length === 0 ? (
             <div className="h-96 flex justify-center items-center m-auto">
               <Spinner />
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
-              {currencyList.map((currency, index) => (
+              {currencyList?.map((currency, index) => (
                 <button
                   key={index}
                   className={`

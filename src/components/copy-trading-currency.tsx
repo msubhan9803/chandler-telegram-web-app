@@ -1,5 +1,5 @@
 import React from "react";
-import Copycreatetradecurrency from "./copy-create-trade-currency";
+import CopyCreateTradeCurrency from "./copy-create-trade-currency";
 
 export default function CurrencyDisclosuer({
   id,
@@ -38,7 +38,7 @@ export default function CurrencyDisclosuer({
       </button>
       {isOpen && (
         <div className="px-4 pt-4 pb-2 text-sm text-gray-500 bg-[#1c1c1c] rounded-3xl">
-          <Copycreatetradecurrency
+          <CopyCreateTradeCurrency
             id={id}
             selectedCurrency={selectedCurrency}
             currencyList={currencyList}
