@@ -1,16 +1,14 @@
 import React from "react";
-import CreateTradeCurrency from "./create-trade-currency";
+import Copycreatetradecurrency from "./copy-create-trade-currency";
 
-export default function TradingCurrency({
+export default function CurrencyDisclosuer({
   id,
   isOpen,
   buttonText,
   currencyList,
   selectedCurrency,
-  amount,
   handleDisclosuerClick,
   handleCurrencySelect,
-  handleAmount,
   handleTradingSubmit,
   loading,
   showLoader,
@@ -20,17 +18,15 @@ export default function TradingCurrency({
   buttonText: any;
   currencyList: any;
   selectedCurrency: any;
-  amount: any;
   handleDisclosuerClick: any;
   handleCurrencySelect: any;
-  handleAmount: any;
   handleTradingSubmit: any;
   loading: boolean;
   showLoader: boolean;
 }) {
   return (
     <>
-      <button
+      <button   
         className="flex flex-col w-full rounded-3xl bg-[#1c1c1c] px-4 py-2 text-left text-sm font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-opacity-75"
         onClick={() => handleDisclosuerClick(id)}
         aria-expanded={isOpen}
@@ -42,13 +38,11 @@ export default function TradingCurrency({
       </button>
       {isOpen && (
         <div className="px-4 pt-4 pb-2 text-sm text-gray-500 bg-[#1c1c1c] rounded-3xl">
-          <CreateTradeCurrency
+          <Copycreatetradecurrency
             id={id}
-            amount={amount}
             selectedCurrency={selectedCurrency}
             currencyList={currencyList}
             handleCurrencySelect={handleCurrencySelect}
-            handleAmount={handleAmount}
             handleTradingSubmit={handleTradingSubmit}
             loading={loading}
             showLoader={showLoader}

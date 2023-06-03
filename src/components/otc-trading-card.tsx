@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import DialogueBox from "../components/dialogue-box-otc-trading";
-import StartTrade from "./start-trade-model";
 
 export default function Otctradingcard({ cardData, openModal }: any) {
   const [isOnline, setIsOnline] = useState(false);
 
   const handleOnlineClick = () => {
-    setIsOnline(true);
+    setIsOnline(!isOnline);
   };
 
   return (
@@ -21,7 +19,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
           <div className=" flex flex-wrap justify-between text-sm font-normal text-white my-3">
             {cardData.title}
 
-            <div className="flex py-1" onClick={() => handleOnlineClick}>
+            <div className="flex py-1" onClick={handleOnlineClick}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -34,6 +32,11 @@ export default function Otctradingcard({ cardData, openModal }: any) {
                   clipRule="evenodd"
                 />
               </svg>
+              <span
+                className={`top-0 left-7 w-2 h-2 border-2 border-white dark:border-gray-800 rounded-full ${
+                  isOnline ? "bg-green-400" : "bg-red-400"
+                }`}
+              ></span>
             </div>
           </div>
 
@@ -110,11 +113,6 @@ export default function Otctradingcard({ cardData, openModal }: any) {
               Start Trade
             </button>
           </div>
-          {/* <p>Users: {cardData.numUsers}</p>
-
-          <p>{cardData.isOnline ? "Online" : "Offline"}</p> */}
-
-          {/* this is the dailogue box heree */}
         </div>
       </div>
     </>

@@ -1,6 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import XMarkIcon from "@heroicons/react/20/solid/XMarkIcon";  // import the XIcon from heroicons
 import AcceptTradeComponent from "./accept-trade-component";
 
 export default function StartTradeModel({

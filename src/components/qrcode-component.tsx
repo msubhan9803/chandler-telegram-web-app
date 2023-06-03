@@ -1,4 +1,3 @@
-// components/QRCodeComponent.js
 import React, { useEffect, useRef } from "react";
 
 const QRCodeComponent = ({ text }: { text: string }) => {
@@ -109,7 +108,7 @@ const QRCodeComponent = ({ text }: { text: string }) => {
 
   return (
     <div className="p-1 mt-4 bg-white m-auto">
-        <div ref={qrCodeRef} />
+      <div ref={qrCodeRef} />
     </div>
   );
 };

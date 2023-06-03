@@ -25,8 +25,8 @@ const Tabs = () => {
 
   return (
     <>
-        <MobileViewDropdown tabsList={tabsList} pathname={pathname} />
-        <OtherViewTabs tabsList={tabsList} pathname={pathname} />
+      <MobileViewDropdown tabsList={tabsList} pathname={pathname} />
+      <OtherViewTabs tabsList={tabsList} pathname={pathname} />
     </>
   );
 };

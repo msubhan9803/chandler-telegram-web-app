@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import type { NextPage } from "next";
 import { useSnackbar } from "notistack";
 import crypto from "crypto";
 import BuyAllHeaderDiv from "@/components/buy-all-header-div";

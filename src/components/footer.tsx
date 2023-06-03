@@ -85,8 +85,6 @@ const Footer = () => {
       </div>
     </div>
   </footer>
-  
-  
   );
 };
 
@@ -101,4 +99,5 @@ function CalderaLogo() {
     />
   );
 }
+
 export default Footer;

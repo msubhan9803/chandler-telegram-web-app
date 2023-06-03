@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Button from "@/components/button";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,6 +10,7 @@ export default function Navbar() {
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
   };
+
   return (
     <>
       <div className="px-6 p-3 lg:px-8 xl:px-8 bg-blue-900">
@@ -76,45 +75,57 @@ export default function Navbar() {
 
           <div className="space-y-4">
             <div className="text-gray-200">
-              {/* <h6 className="font-normal  dark:text-gray-200">Home</h6> */}
               <ul className="space-y-2">
-                <li        className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500" >
-           Home
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500"
+                >
+                  Home
                 </li>
-                <li className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500">
-                   Service
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500"
+                >
+                  Service
                 </li>
-                <li className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500">
-                   FAQ
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500"
+                >
+                  FAQ
                 </li>
               </ul>
             </div>
             <div>
-              
-              <ul className="space-y-2 text-gray-200 "> Get Started
-                <li   className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500 ml-4 pt-2">
-                 BOT Guide
+              <ul className="space-y-2 text-gray-200 ">
+                {" "}
+                Get Started
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500 ml-4 pt-2"
+                >
+                  BOT Guide
                 </li>
               </ul>
-             
-              <ul className="space-y-2 text-gray-200">  Instroduction to Crypto
-             
-                <li  className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500 ml-4 pt-2">
+
+              <ul className="space-y-2 text-gray-200">
+                {" "}
+                Instroduction to Crypto
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500 ml-4 pt-2"
+                >
                   CryptoCurrency
                 </li>
-                <li className=" dark:text-gray-300 hover:text-blue-700
-                  dark:hover:text-blue-500 ml-4 ">
-                   Wellets
+                <li
+                  className=" dark:text-gray-300 hover:text-blue-700
+                  dark:hover:text-blue-500 ml-4 "
+                >
+                  Wellets
                 </li>
               </ul>
             </div>
           </div>
-         
         </div>
       </div>
     </>
