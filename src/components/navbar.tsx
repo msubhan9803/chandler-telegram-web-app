@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import MobileNavbar from "@/components/mobile-navbar";
+import Button from "@/components/button";
+import MobileNavbar from '@/components/mobile-navbar';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,7 +13,6 @@ export default function Navbar() {
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
   };
-
   return (
     <>
       <div className="px-6 p-3 lg:px-8 xl:px-8 bg-blue-900">
@@ -38,12 +39,10 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {isDrawerOpen && (
-          <MobileNavbar
-            isDrawerOpen={isDrawerOpen}
-            handleDrawerToggle={handleDrawerToggle}
-          />
-        )}
+        <MobileNavbar
+          isDrawerOpen={isDrawerOpen}
+          handleDrawerToggle={handleDrawerToggle}
+        />
       </div>
     </>
   );
