@@ -20,7 +20,7 @@ export default function OtcTrading() {
       amount: "0.05657890 BTC",
       currency1image: "https://caldera.trade/images/coins/btc.png",
       currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: false,
+      isOnline: true,
     },
     {
       title: "Buy All Trade",

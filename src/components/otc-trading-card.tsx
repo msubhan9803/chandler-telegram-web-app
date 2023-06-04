@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 export default function Otctradingcard({ cardData, openModal }: any) {
-  const [isOnline, setIsOnline] = useState(false);
-
-  const handleOnlineClick = () => {
-    setIsOnline(!isOnline);
-  };
-
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
@@ -19,7 +13,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
           <div className=" flex flex-wrap justify-between text-sm font-normal text-white my-3">
             {cardData.title}
 
-            <div className="flex py-1" onClick={handleOnlineClick}>
+            <div className="flex py-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -33,8 +27,8 @@ export default function Otctradingcard({ cardData, openModal }: any) {
                 />
               </svg>
               <span
-                className={`top-0 left-7 w-2 h-2 border-2 border-white dark:border-gray-800 rounded-full ${
-                  isOnline ? "bg-green-400" : "bg-red-400"
+                className={`top-0 left-7 w-2 h-2 border-none dark:border-gray-800 rounded-full ${
+                  cardData.isOnline ? "bg-green-400" : "bg-red-400"
                 }`}
               ></span>
             </div>
