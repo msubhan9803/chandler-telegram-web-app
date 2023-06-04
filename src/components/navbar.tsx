@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Button from "@/components/button";
-import MobileNavbar from '@/components/mobile-navbar';
+import MobileNavbar from "@/components/mobile-navbar";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,26 +17,22 @@ export default function Navbar() {
     <>
       <div className="px-6 p-3 lg:px-8 xl:px-8 bg-blue-900">
         <nav className="flex items-center justify-between" aria-label="Global">
-          <div className="flex lg:flex-1">
+          <div className="">
             <Link href="/" className="-m-1.5 p-1.5">
               <CalderaLogo />
             </Link>
           </div>
-          <div>
-            <button className="bg-transparent border-2 border-white text-sm text-white p-2 py-1 rounded-2xl">
-              Log In
-            </button>
-          </div>
-          <div className="flex ">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-primary-main"
-              onClick={handleDrawerToggle}
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
+          <button className="bg-transparent border-2 border-white text-sm text-white p-2 py-1 rounded-2xl">
+            Log In
+          </button>
+          <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-primary-main"
+            onClick={handleDrawerToggle}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
         </nav>
 
         <MobileNavbar
