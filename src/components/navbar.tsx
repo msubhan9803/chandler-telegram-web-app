@@ -15,7 +15,7 @@ export default function Navbar() {
   };
   return (
     <>
-      <div className="px-6 p-3 lg:px-8 xl:px-8 bg-blue-900">
+      <div className="px-6 p-3 lg:px-8 xl:px-8 bg-custom-blue">
         <nav className="flex items-center justify-between" aria-label="Global">
           <div className="">
             <Link href="/" className="-m-1.5 p-1.5">
