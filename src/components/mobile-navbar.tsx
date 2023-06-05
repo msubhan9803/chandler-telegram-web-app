@@ -17,7 +17,7 @@ export default function MobileNavbar({
         className={`fixed top-0 right-0 z-40 h-screen  p-4 overflow-y-auto transition-transform ${
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         } bg-neutral-700 w-80 rounded-l-xl border-2 border-neutral-800 dark:bg-gray-800`}
-        tabIndex="-1"
+        tabIndex={-1}
         aria-labelledby="drawer-right-label"
       >
         <h5
