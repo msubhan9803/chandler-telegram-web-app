@@ -90,10 +90,10 @@ export default function MobileNavbar({
           <span className="sr-only">Close menu</span>
         </button>
 
-        <div className="space-y-4">
+        <div className="space-y-1">
           <div className="text-gray-200">
             {navbarConfig.map((parent, index) => (
-              <ul className="space-y-2 cursor-pointer" key={index}>
+              <ul className="cursor-pointer" key={index}>
                 <p className="hover:bg-gray-100 hover:bg-opacity-10 rounded-md p-2">{parent.label}</p>
 
                 {parent.childrens.length > 0 &&
