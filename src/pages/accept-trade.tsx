@@ -55,6 +55,7 @@ const CreateTrade: NextPage = () => {
 
   return (
     <AcceptTradeComponent
+      className="h-screen"
       state={state}
       setState={setState}
       formState={formState}

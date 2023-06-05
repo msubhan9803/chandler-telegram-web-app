@@ -42,6 +42,7 @@ export default function StartTradeModel({
               >
                 <Dialog.Panel className="w-full m-auto max-w-md transform overflow-hidden rounded-2xl bg-[#1c1c1c] text-left align-middle shadow-xl transition-all relative">
                   <AcceptTradeComponent
+                    className="h-auto"
                     state={state}
                     setState={setState}
                     formState={formState}

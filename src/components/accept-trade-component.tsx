@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import type { NextPage } from "next";
 import { useSnackbar } from "notistack";
 import crypto from "crypto";
 import BuyAllHeaderDiv from "@/components/buy-all-header-div";
@@ -15,6 +16,7 @@ declare global {
 }
 
 export default function AcceptTradeComponent({
+  className,
   state,
   setState,
   formState,
@@ -237,7 +239,7 @@ export default function AcceptTradeComponent({
   useEffect(() => {
     if (state.currencyA && state.currencyB && state.trade_id) {
       handleGetAssets(state.currencyA, state.currencyB);
-      // handleTradeDetailsFetch(state.trade_id);
+      handleTradeDetailsFetch(state.trade_id);
     }
   }, [state]);
 
@@ -246,7 +248,7 @@ export default function AcceptTradeComponent({
       <Script src="https://telegram.org/js/telegram-web-app.js" />
 
       <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
-        <div className="rounded-xl w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700">
+        <div className={`${className} rounded-xl w-full bg-dark-gray shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] box-border overflow-y-auto flex flex-col p-[18px] items-center justify-start gap-[9px] border-[2.5px] border-solid border-zinc-700`}>
           {/* <h2 className="text-white">DEBUG:</h2>
           <p className="text-white">{JSON.stringify(state)}</p>
           <br />
