@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import AcceptTradeComponent from "./accept-trade-component";
 
 export default function StartTradeModel({
@@ -10,12 +11,12 @@ export default function StartTradeModel({
   setState,
   formState,
   setFormState,
-  handleClose
+  handleClose,
 }: any) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => {}}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -29,7 +30,7 @@ export default function StartTradeModel({
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex m-auto max-h-full h-5/6 items-center justify-center p-4 text-center">
+            <div className="flex m-auto max-h-full h-full lg:h-5/6 items-end lg:items-center justify-center p-4">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -40,12 +41,6 @@ export default function StartTradeModel({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full m-auto max-w-md transform overflow-hidden rounded-2xl bg-[#1c1c1c] text-left align-middle shadow-xl transition-all relative">
-                  {/* <button
-                    className="absolute top-2 right-2 rounded-full hover:bg-opacity-50 hover:bg-gray-600 transition cursor-pointer z-50"
-                    onClick={closeModal}
-                  >
-                    <XMarkIcon className="h-5 w-5 text-gray-300 cursor-pointer" />
-                  </button> */}
                   <AcceptTradeComponent
                     state={state}
                     setState={setState}
