@@ -50,7 +50,7 @@ export default function CreateTradeModel({ isOpen, closeModal }: any) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-3xl bg-[#1e69a0] text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-3xl bg-custom-second-blue text-left align-middle shadow-xl transition-all">
                 <div className="flex justify-end m-2">
                   <button
                     className="rounded-full hover:bg-opacity-50 hover:bg-gray-600 transition cursor-pointer z-50"

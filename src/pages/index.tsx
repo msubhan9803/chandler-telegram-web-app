@@ -3,6 +3,7 @@ import Filter from "@/components/filter-OTC-trading";
 import MainLayout from "@/layouts/main-layout";
 import OtcTradingCard from "@/components/otc-trading-card";
 import StartTradeModel from "@/components/start-trade-model";
+import CurrencyFilterModal from "@/components/currency-filter-modal";
 
 export default function OtcTrading() {
   const cardObjects = [
@@ -60,6 +61,11 @@ export default function OtcTrading() {
     currency1Addr: "",
     currency2Addr: "",
   });
+  const [currencyFilter, setCurrencyFilter] = useState({
+    currencyOne: "",
+    currencyTwo: "",
+  });
+  const [isCurrencyFilterOpen, setIsCurrencyFilterOpen] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -102,10 +108,15 @@ export default function OtcTrading() {
     // }
   }, []);
 
+  const handleCurrencyFilterClose = () => {
+    setIsCurrencyFilterOpen(!isCurrencyFilterOpen);
+  }
+
   return (
     <>
       <MainLayout>
-        <Filter />
+        <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
           {cardObjects.map((card, index) => (
             <OtcTradingCard key={index} cardData={card} openModal={openModal} />
@@ -124,6 +135,14 @@ export default function OtcTrading() {
             handleClose={handleClose}
           />
         )}
+
+        <CurrencyFilterModal
+          currencyFilter={currencyFilter}
+          setCurrencyFilter={setCurrencyFilter}
+          isCurrencyFilterOpen={isCurrencyFilterOpen}
+          setIsCurrencyFilterOpen={setIsCurrencyFilterOpen}
+          handleCurrencyFilterClose={handleCurrencyFilterClose}
+        />
       </MainLayout>
     </>
   );

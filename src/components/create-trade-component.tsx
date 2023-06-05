@@ -177,7 +177,7 @@ export default function CreateTradeComponent({
     <>
       <Script src="https://telegram.org/js/telegram-web-app.js" />
 
-      <div className="mx-auto w-full max-w-md rounded-3xl p-2 space-y-2 bg-[#1e69a0]">
+      <div className="mx-auto w-full max-w-md rounded-3xl p-2 space-y-2 bg-custom-second-blue">
         {disclosures.map(
           (
             {

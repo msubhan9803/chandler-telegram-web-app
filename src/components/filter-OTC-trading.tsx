@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FilterOTCtrading({openModal}:any) {
+export default function FilterOTCtrading({ handleCurrencyFilterClose }:any) {
   return (
     <>
       <div className="bg-dark-gray p-4">
@@ -9,7 +9,7 @@ export default function FilterOTCtrading({openModal}:any) {
           role="group"
         >
           <button
-            type="button" onClick={openModal}
+            type="button" onClick={handleCurrencyFilterClose}
             className="px-3 py-2 text-sm font-normal text-white bg-neutral-700 border-1 border-gray-800 rounded-l-lg  focus:z-10  "
           >
             Looking For:
@@ -18,7 +18,7 @@ export default function FilterOTCtrading({openModal}:any) {
           </button>
           <div className="w-1 bg-neutral-800"></div>
           <button
-            type="button"  onClick={openModal}
+            type="button"  onClick={handleCurrencyFilterClose}
             className="px-3 py-2 text-sm font-normal text-white bg-neutral-700 border-1 border-gray-800 rounded-r-lg  "
           >
             Offerings:
