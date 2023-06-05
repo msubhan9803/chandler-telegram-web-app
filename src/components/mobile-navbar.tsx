@@ -4,6 +4,47 @@ export default function MobileNavbar({
   isDrawerOpen,
   handleDrawerToggle,
 }: any) {
+  const navbarConfig = [
+    {
+      route: "/",
+      label: "Home",
+      childrens: [],
+    },
+    {
+      route: "/",
+      label: "Service",
+      childrens: [],
+    },
+    {
+      route: "/",
+      label: "FAQ",
+      childrens: [],
+    },
+    {
+      route: "/",
+      label: "Get Started",
+      childrens: [
+        {
+          label: "BOT Guide",
+          route: "/",
+        },
+      ],
+    },
+    {
+      route: "/",
+      label: "Instroduction to Crypto",
+      childrens: [
+        {
+          label: "Crypto Currency",
+          route: "/",
+        },
+        {
+          label: "Wallets",
+          route: "/",
+        },
+      ],
+    },
+  ];
   return (
     <>
       {isDrawerOpen && (
@@ -51,56 +92,21 @@ export default function MobileNavbar({
 
         <div className="space-y-4">
           <div className="text-gray-200">
-            {/* <h6 className="font-normal  dark:text-gray-200">Home</h6> */}
-            <ul className="space-y-2">
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500"
-              >
-                Home
-              </li>
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500"
-              >
-                Service
-              </li>
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500"
-              >
-                FAQ
-              </li>
-            </ul>
-          </div>
-          <div>
-            <ul className="space-y-2 text-gray-200 ">
-              {" "}
-              Get Started
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500 ml-4 pt-2"
-              >
-                BOT Guide
-              </li>
-            </ul>
+            {navbarConfig.map((parent, index) => (
+              <ul className="space-y-2 cursor-pointer" key={index}>
+                <p className="hover:bg-gray-100 hover:bg-opacity-10 rounded-md p-2">{parent.label}</p>
 
-            <ul className="space-y-2 text-gray-200">
-              {" "}
-              Instroduction to Crypto
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500 ml-4 pt-2"
-              >
-                CryptoCurrency
-              </li>
-              <li
-                className=" dark:text-gray-300 hover:text-blue-700
-              dark:hover:text-blue-500 ml-4 "
-              >
-                Wellets
-              </li>
-            </ul>
+                {parent.childrens.length > 0 &&
+                  parent.childrens.map((child, childIndex) => (
+                    <li
+                      className="ml-5 dark:text-gray-300 hover:bg-gray-100 hover:bg-opacity-10 rounded-md p-2"
+                      key={childIndex}
+                    >
+                      {child.label}
+                    </li>
+                  ))}
+              </ul>
+            ))}
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function Navbar() {
           </button>
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-primary-main"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
             onClick={handleDrawerToggle}
           >
             <span className="sr-only">Open main menu</span>
