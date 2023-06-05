@@ -128,7 +128,7 @@ export default function CurrencyFilterComponent({
     <>
       <Script src="https://telegram.org/js/telegram-web-app.js" />
 
-      <div className="mx-auto w-full max-w-md rounded-3xl p-2 space-y-2">
+      <div className="mx-auto w-full lg:max-w-md rounded-3xl p-2 space-y-2">
         {disclosures.map(
           ({ id, isOpen, buttonText, handleCurrencySelect, type }, index) => (
             <>
