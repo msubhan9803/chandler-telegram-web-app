@@ -76,18 +76,16 @@ export default function MyOffers() {
           ))}
         </div>
 
-        {isOpen && (
-          <CreateTradeModel
-            isOpen={isOpen}
-            closeModal={closeModal}
-            openModal={openModal}
-            state={state}
-            setState={setState}
-            formState={formState}
-            setFormState={setFormState}
-            handleClose={handleClose}
-          />
-        )}
+        <CreateTradeModel
+          isOpen={isOpen}
+          closeModal={closeModal}
+          openModal={openModal}
+          state={state}
+          setState={setState}
+          formState={formState}
+          setFormState={setFormState}
+          handleClose={handleClose}
+        />
       </MainLayout>
     </>
   );
