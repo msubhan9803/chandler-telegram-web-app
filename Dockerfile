@@ -1,5 +1,5 @@
 # BASE
-FROM node:16.10-bullseye-slim AS base
+FROM node:16.14-bullseye-slim AS base
 LABEL org.opencontainers.image.source=https://github.com/caldera-network/telegram-webapp
 
 # TODO: Remove build arg in favor of docker run -e DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
