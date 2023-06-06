@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+    cert-manager.io/issuer: letsencrypt-nginx
+spec:
+  tls:
+  - hosts:
+      - tg.caldera.network
+    secretName: tls-cert
+  rules:
+  - host: tg.caldera.network
+    http:
+      paths:
+      - path: /.*
+        pathType: Prefix
+        backend:
+          service:
+            name: telegram-webapp-svc
+            port:
+              number: 3000
+  ingressClassName: nginx

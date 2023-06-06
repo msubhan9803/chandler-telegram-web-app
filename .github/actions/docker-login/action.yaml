@@ -1,0 +1,30 @@
+name: Docker Login
+description: Logs into GHCR and DockerHub
+inputs:
+  DOCKERHUB_PASSWORD:
+    description: 'DockerHub Password'
+    required: true
+  DOCKERHUB_USERNAME:
+    description: 'DockerHub Username'
+    required: true
+  GH_TOKEN:
+    description: 'GHCR Password'
+    required: true
+  DOCKER_REG:
+    description: 'Docker Registry to use'
+    default: 'ghcr.io'
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ inputs.DOCKERHUB_USERNAME }}
+        password: ${{ inputs.DOCKERHUB_PASSWORD }}
+    - name: Login to GHCR
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.DOCKER_REG }}
+        username: ${{ github.repository_owner }}
+        password: ${{ inputs.GH_TOKEN }}

@@ -1,0 +1,5 @@
+replicaCount: 1
+namespace: dev-telegram-webapp
+image:
+  tag: dev
+  repository: ghcr.io/caldera-network/telegram-webapp

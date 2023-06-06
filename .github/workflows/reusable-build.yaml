@@ -1,0 +1,89 @@
+name: Build
+on:
+  workflow_call:
+    inputs:
+      CONTEXT:
+        description: 'Top level folder of Docker Build'
+        required: true
+        type: string
+      DOCKERIMAGE:
+        description: 'Docker Image Name'
+        required: true
+        type: string
+      FOR_DEVELOPMENT:
+        description: 'Enables PR Docker Image Build'
+        required: true
+        type: boolean
+      FOR_RELEASE:
+        default: true
+        description: 'Enables Main Docker Image Build'
+        required: false
+        type: boolean
+      TAG:
+        description: 'Docker Image Release Tag'
+        required: true
+        type: string
+    secrets:
+      DOPPLER_TOKEN:
+        description: "doppler token to use"
+        required: true
+      DOCKERHUB_PASSWORD:
+        description: 'DockerHub Password'
+        required: true
+      DOCKERHUB_USERNAME:
+        description: 'DockerHub Username'
+        required: true
+      GH_TOKEN:
+        description: 'GHCR Password'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_REG: ghcr.io
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      -
+        name: Docker Login
+        uses: caldera-network/telegram-webapp/.github/actions/docker-login@main
+        with:
+          DOCKERHUB_PASSWORD:  ${{ secrets.DOCKERHUB_PASSWORD }}
+          DOCKERHUB_USERNAME:  ${{ secrets.DOCKERHUB_USERNAME }}
+          GH_TOKEN:  ${{ secrets.GH_TOKEN }}
+      -
+        name: Set up context for buildx
+        id: buildx-context
+        run: docker context create builders
+      -
+        name: Set up builder
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          endpoint: builders
+          install: true
+      -
+        name: Build Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ inputs.CONTEXT }}
+          target: release
+          # TODO: Remove build arg in favor of docker run -e DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
+          build-args: | 
+            DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
+          push: false
+      -
+        name: Push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ inputs.CONTEXT }}
+          target: release
+          # TODO: Remove build arg in favor of docker run -e DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
+          build-args: | 
+            DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
+          tags: ${{ env.DOCKER_REG }}/caldera-network/${{ inputs.DOCKERIMAGE }}:${{ inputs.TAG }}
+          push: true

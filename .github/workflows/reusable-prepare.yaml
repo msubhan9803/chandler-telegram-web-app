@@ -1,0 +1,70 @@
+name: Build and deploy preparation
+on:
+  workflow_call:
+    inputs:
+      NAMESPACE:
+        description: 'Target kubernetes namespace'
+        required: true
+        type: string
+      SERVICE:
+        description: 'Name of service'
+        default: ''
+        required: true
+        type: string
+    outputs:
+      RELEASE:
+        description: 'Calculated Release Name'
+        value: ${{ jobs.prepare.outputs.RELEASE }}
+      TAG:
+        description: 'Docker Image Release Tag'
+        value: ${{ jobs.prepare.outputs.TAG }}
+      TIER:
+        description: 'Calculated Tier of Release'
+        value: ${{ jobs.prepare.outputs.TIER }}
+      VERSION:
+        description: 'Calculated Version of Release'
+        value: ${{ jobs.prepare.outputs.VERSION }}
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      RELEASE: ${{ steps.ref.outputs.release }}
+      TAG: ${{ steps.ref.outputs.tag }}
+      TIER: ${{ steps.ref.outputs.tier }}
+      VERSION: ${{ steps.ref.outputs.version }}
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      -
+        name: Calculate release, tag and version
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "RELEASE=$(echo "${{ inputs.SERVICE }}-pr${{ github.event.pull_request.number }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+            echo "TAG=pr${{ github.event.pull_request.number }}-$(git rev-parse --short=8 ${{ github.sha }})" >> $GITHUB_ENV
+            echo "TIER=pr${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          else
+            echo "RELEASE=$(echo "${{ inputs.SERVICE }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+            echo "TAG=sha$(git rev-parse --short=8 ${{ github.sha }})" >> $GITHUB_ENV
+            echo "TIER=dev" >> $GITHUB_ENV
+          fi
+          echo "VERSION=$(git describe --tags)" >> $GITHUB_ENV
+      -
+        name: Run Helm lint
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          helm lint ./charts/${{ inputs.SERVICE }} \
+            -f ./charts/${{ inputs.SERVICE }}/pr.yaml \
+            --namespace ${{ inputs.NAMESPACE }} \
+            --set global.tier=${{ env.TIER }} \
+            --set image.tag=${{ env.TAG }}
+      -
+        name: Share release, tag and version
+        id: ref
+        run: |
+          echo "::set-output name=RELEASE::${{ env.RELEASE }}"
+          echo "::set-output name=TAG::${{ env.TAG }}"
+          echo "::set-output name=TIER::${{ env.TIER }}"
+          echo "::set-output name=VERSION::${{ env.VERSION }}"

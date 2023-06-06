@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: telegram-webapp
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: telegram-webapp-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: telegram-webapp-app
+  serviceName: telegram-webapp-svc
+  template:
+    metadata:
+      labels:
+        app: telegram-webapp-app
+    spec:
+      nodeSelector:
+        doks.digitalocean.com/node-pool: telegram-webapp
+      imagePullSecrets:
+        - name: docker-ghcr-login
+      containers:
+      - name: telegram-webapp
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: telegram-webapp-svc
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - port: 3000
+      name: api
+  type: ClusterIP
+  selector:
+    app: telegram-webapp-app

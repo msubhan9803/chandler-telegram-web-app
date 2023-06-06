@@ -1,0 +1,5 @@
+replicaCount: 3
+namespace: telegram-webapp
+image:
+  tag: latest # Default tag until argo
+  repository: ghcr.io/caldera-network/telegram-webapp

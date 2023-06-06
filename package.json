@@ -1,5 +1,5 @@
 {
-  "name": "telegram-web-app",
+  "name": "@caldera-network/telegram-webapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {

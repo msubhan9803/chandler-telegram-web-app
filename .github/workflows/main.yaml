@@ -1,0 +1,51 @@
+name: Build on Main
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.event.ref }}
+  cancel-in-progress: true
+
+env:
+  NAMESPACE: telegram-webapp
+  SERVICE: telegram-webapp
+
+jobs:
+  prepare:
+    uses: caldera-network/telegram-webapp/.github/workflows/reusable-prepare.yaml@main
+    with:
+      NAMESPACE: telegram-webapp
+      SERVICE: telegram-webapp
+  build:
+    needs: [prepare]
+    uses: caldera-network/telegram-webapp/.github/workflows/reusable-build.yaml@main
+    secrets:
+      DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    strategy:
+      matrix:
+        include:
+          - context: .
+            dockerimage: telegram-webapp
+            forDevelopment: true
+            forRelease: true
+    with:
+      CONTEXT: ${{ matrix.context }}
+      DOCKERIMAGE: ${{ matrix.dockerimage }}
+      FOR_DEVELOPMENT: ${{ matrix.forDevelopment }}
+      FOR_RELEASE: ${{ matrix.forRelease }}
+      TAG: latest
+
+  # deploy:
+  #   needs: [prepare, build]
+  #   uses: caldera-network/telegram-webapp/.github/workflows/reusable-deploy.yaml@main
+  #   secrets: inherit
+  #   with:
+  #     NAMESPACE: telegram-webapp
+  #     SERVICE: telegram-webapp
+  #     RELEASE: ${{ needs.prepare.outputs.RELEASE }}
+  #     TAG: ${{ needs.prepare.outputs.TAG }}
+  #     TIER: ${{ needs.prepare.outputs.TIER }}
