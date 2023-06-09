@@ -41,7 +41,7 @@ export default function CopyCreateTradeCurrency({
                           ? "bg-zinc-600"
                           : "bg-none"
                       }
-                      cursor-pointe
+                      cursor-pointer
                       py-[5px]
                       px-[7.5px]
                       bg-[transparent]
