@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryptoOne: { amount: string, name: string}}, state: { trade_id: string, userId: string, username: string}, formState: { currency1Addr: string, currency2Addr: string}) => {
+const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryptoOne: { amount: string, name: string}}, state: { trade_id: string, userId: string, username: string}, formState: { currency1Addr: string, currency2Addr: string}, onError: (error: string, data: { variant: "error"}) => void) => {
   const [calderaWalletAddress, setCalderaWalletAddress] = useState('');
   
     useEffect(() => {
@@ -39,7 +39,10 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryp
       .then(escrowResponseData => {
         setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoOne);
       })
-      }, [formState.currency1Addr, formState.currency2Addr, showReceiveAddressInfo, state.trade_id, state.userId, state.username]);
+      .catch(error => {
+        onError(error.message, { variant: "error" });
+      })
+      }, [formState.currency1Addr, formState.currency2Addr, onError, showReceiveAddressInfo, state.trade_id, state.userId, state.username]);
       if(!showReceiveAddressInfo) return <div></div>;
       if (!calderaWalletAddress) return <div>Loading...</div>;
   
@@ -308,7 +311,7 @@ export default function AcceptTradeComponent({
             <CustomProgressBar progress={progress} />
 
             {/* {showReceiveAddressInfo && ( */}
-            { SendToCalderaInfo(showReceiveAddressInfo, tradeDetails,state,formState)}
+            { SendToCalderaInfo(showReceiveAddressInfo, tradeDetails,state,formState, enqueueSnackbar)}
             {/* )} */}
           </div>
           <div className="h-[116px] shrink-0 flex flex-col p-[9px] box-border items-center justify-center gap-[18px]">
