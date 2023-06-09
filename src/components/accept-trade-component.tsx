@@ -15,40 +15,41 @@ declare global {
   }
 }
 
-const SendToCalderaInfo = (tradeDetails: { cryptoOne: { amount: string, name: string}}, state: { trade_id: string, userId: string, username: string}, formState: { currency1Addr: string, currency2Addr: string}) => {
+const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryptoOne: { amount: string, name: string}}, state: { trade_id: string, userId: string, username: string}, formState: { currency1Addr: string, currency2Addr: string}) => {
   const [calderaWalletAddress, setCalderaWalletAddress] = useState('');
   
     useEffect(() => {
+      if(!showReceiveAddressInfo) return;
       const guid = crypto.randomBytes(16).toString("hex");
-  // Set up the request payload
-  const startEscrowConfig: AxiosRequestConfig = {
-    method: "POST",
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
-    data: {
-      tradeId: state.trade_id,
-      endpoint: "http://localhost:3000/escrow-response/" + guid,
-      providerId: state.userId,
-      providerName: state.username,
-      providerWalletAddress: formState.currency1Addr,
-      receiverWalletAddress: formState.currency2Addr,
-      userSource: "telegram",
-    }
-  };
-    void axios.request<{response: { calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
-    .then(escrowResponseData => {
-      setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoOne);
-    })
-    }, [formState.currency1Addr, formState.currency2Addr, state.trade_id, state.userId, state.username]);
+      // Set up the request payload
+      const startEscrowConfig: AxiosRequestConfig = {
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
+        data: {
+          tradeId: state.trade_id,
+          endpoint: "http://localhost:3000/escrow-response/" + guid,
+          providerId: state.userId,
+          providerName: state.username,
+          providerWalletAddress: formState.currency1Addr,
+          receiverWalletAddress: formState.currency2Addr,
+          userSource: "telegram",
+        }
+      };
+      void axios.request<{response: { calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
+      .then(escrowResponseData => {
+        setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoOne);
+      })
+      }, [formState.currency1Addr, formState.currency2Addr, showReceiveAddressInfo, state.trade_id, state.userId, state.username]);
+      if(!showReceiveAddressInfo) return <div></div>;
+      if (!calderaWalletAddress) return <div>Loading...</div>;
   
-    if (!calderaWalletAddress) return <div>Loading...</div>;
-  
-    return (
-      <ReceiveAddressInfo
-                amount={tradeDetails.cryptoOne.amount}
-                currency={tradeDetails.cryptoOne.name.toUpperCase()}
-                address={calderaWalletAddress}
-              />
-    );
+      return (
+        <ReceiveAddressInfo
+                  amount={tradeDetails.cryptoOne.amount}
+                  currency={tradeDetails.cryptoOne.name.toUpperCase()}
+                  address={calderaWalletAddress}
+                />
+      );
   };
 
 export default function AcceptTradeComponent({
@@ -306,9 +307,9 @@ export default function AcceptTradeComponent({
 
             <CustomProgressBar progress={progress} />
 
-            {showReceiveAddressInfo && (
-              SendToCalderaInfo(tradeDetails,state,formState)
-            )}
+            {/* {showReceiveAddressInfo && ( */}
+            { SendToCalderaInfo(showReceiveAddressInfo, tradeDetails,state,formState)}
+            {/* )} */}
           </div>
           <div className="h-[116px] shrink-0 flex flex-col p-[9px] box-border items-center justify-center gap-[18px]">
             <Button
