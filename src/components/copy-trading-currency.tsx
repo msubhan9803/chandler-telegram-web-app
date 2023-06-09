@@ -1,7 +1,7 @@
 import React from "react";
 import CopyCreateTradeCurrency from "./copy-create-trade-currency";
 
-export default function CurrencyDisclosuer({
+export default function CurrencyDisclosure({
   id,
   isOpen,
   buttonText,
