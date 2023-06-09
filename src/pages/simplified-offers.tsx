@@ -10,7 +10,7 @@ const UserTrades = (state: { userId: string}) => {
       // Set up the request payload
       const getUserTradesListingsConfig: AxiosRequestConfig = {
         method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/get-trade-list`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-list`,
         data: {
           userId: state.userId,
         }
