@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import Script from "next/script";
 import CurrencyDisclosuer from "@/components/trading-currency";
+import axios, { AxiosRequestConfig } from "axios";
 
 export default function CreateTradeComponent({
   state,
@@ -118,30 +119,21 @@ export default function CreateTradeComponent({
 
       setLoading(true);
 
-      const payload = {
-        cryptoOneName: selectedTradingCurrency.currency.toLowerCase(),
-        cryptoOneAmount: tradingAmount,
-        cryptoTwoName: selectedSeekingCurrency.currency.toLowerCase(),
-        cryptoTwoAmount: seekingAmount,
-        providerId: state.userId,
-        providerName: state.username,
-        providerWalletAddress:
-          "kaspa:qpucux6gk78fafrwex4v9dfc8y38fhnaa5tyhfr9etrxgmsaketa7lthh7kzt",
-        receiverWalletAddress:
-          "d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF",
-        userSource: "telegram",
-      };
+      const createTradeRequest: AxiosRequestConfig = {
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/create-trade`,
+        data: {
+          cryptoOneName: selectedTradingCurrency.currency.toLowerCase(),
+          cryptoOneAmount: tradingAmount,
+          cryptoTwoName: selectedSeekingCurrency.currency.toLowerCase(),
+          cryptoTwoAmount: seekingAmount,
+          providerId: state.userId,
+          providerName: state.username,
+          userSource: "telegram",
+        },
+      }
 
-      await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/create-trade`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      )
+      await axios.request(createTradeRequest)
         .then((res) => {
           setLoading(false);
           enqueueSnackbar("Submitted!", { variant: "success" });
