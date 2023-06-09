@@ -126,7 +126,7 @@ export default function AcceptTradeComponent({
     return !(newErrorState.currency1Addr || newErrorState.currency2Addr);
   }
 
-  const handleNext = async (e: Event) => {
+  const handleNext = (e: Event) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -144,6 +144,7 @@ export default function AcceptTradeComponent({
       void addTrader();
     } else if (step === 1) {
       setSubmitLoading(false);
+      setProgress(100);
       enqueueSnackbar("Escrow in progress!", { variant: "info" });
 
       setTimeout(() => {
@@ -153,9 +154,8 @@ export default function AcceptTradeComponent({
     } else {
       // error
       setSubmitLoading(false);
-      enqueueSnackbar("Request not fullfiled successfully!", {
-        variant: "error",
-      });
+      closeSnackbar();
+      handleClose();
     }
 
     setStep(step+1);
@@ -201,12 +201,6 @@ export default function AcceptTradeComponent({
 
     await axios.request(addTraderConfig).catch(() => {})
   }
-
-  const getSubmitButtonHandler = (e: Event) => {
-    if (step === 0) {
-      return handleNext(e);
-    }
-  };
 
   const getCancelButtonHandler = (e: Event) => {
     if (step === 0) {
@@ -317,7 +311,7 @@ export default function AcceptTradeComponent({
           <div className="h-[116px] shrink-0 flex flex-col p-[9px] box-border items-center justify-center gap-[18px]">
             <Button
               text="Submit"
-              handleClick={getSubmitButtonHandler}
+              handleClick={handleNext}
               classes="bg-primary-main disabled:bg-primary-light text-black"
               loading={submitLoading}
             />
