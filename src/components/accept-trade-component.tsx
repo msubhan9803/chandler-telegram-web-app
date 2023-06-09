@@ -8,6 +8,7 @@ import Button from "@/components/button";
 import Script from "next/script";
 import CustomProgressBar from "@/components/progress-bar";
 import ReceiveAddressInfo from "@/components/receive-address-info";
+import axios, { AxiosRequestConfig } from "axios";
 
 declare global {
   interface Window {
@@ -222,11 +223,15 @@ export default function AcceptTradeComponent({
   };
 
   const handleTradeDetailsFetch = async (trade_id: string) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details/${trade_id}`
-    ).then((res: any) => res.json());
+    const getTradeDetailsConfig: AxiosRequestConfig = {
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details/${trade_id}`,
+    }
+    const response = await axios.request<{
+      tradeDetailsResult: any
+    }>(getTradeDetailsConfig);
 
-    setTradeDetails(response.tradeDetailsResult);
+    setTradeDetails(response.data.tradeDetailsResult);
   };
 
   const handleOnChange = (e: any) => {
