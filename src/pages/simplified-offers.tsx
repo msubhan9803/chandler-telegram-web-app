@@ -106,38 +106,6 @@ export default function SimplifiedOffers() {
       });
     }
   }, []);
-  const cardObjects = [
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Partial Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Partial Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-  ];
 
   return (
     <>
