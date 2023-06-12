@@ -33,6 +33,7 @@ const UserActiveTrades = (state: { userId: string}) => {
                 <MyActiveTradesCard
                 key={tradeOffer.escrowId}
                 cardData={{
+                  userId: state.userId,
                   escrowId: tradeOffer.escrowId,
                   providingCurrency: state.userId === tradeOffer.cryptoOne.providerId ? tradeOffer.cryptoOne.name : tradeOffer.cryptoTwo.name,
                   title: tradeOffer.tradeType === "take-all" ? "Buy All Trade" : "Partial Trade",
