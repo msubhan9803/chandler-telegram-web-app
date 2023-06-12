@@ -49,7 +49,7 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { prov
           onError(error.message, { variant: "error" });
         })
     }
-  }, [formState.receivingCryptoAddr, formState.providingCryptoAddr, onError, showReceiveAddressInfo, state.escrowId, state.trade_id, state.userId, state.username, tradeDetails.providingCrypto.calderaWalletAddress]);
+  }, [formState.receivingCryptoAddr, formState.providingCryptoAddr, onError, showReceiveAddressInfo, state.escrowId, state.trade_id, state.userId, state.username, tradeDetails.providingCrypto.calderaWalletAddress, tradeDetails]);
     
     if(!showReceiveAddressInfo) return <div></div>;
     if (!calderaWalletAddress || calderaWalletAddress === "") return <div>Loading...</div>;

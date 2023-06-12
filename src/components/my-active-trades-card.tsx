@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "@/components/button";
 import Image from "next/image";
+import axios, { AxiosRequestConfig } from "axios";
+import { useSnackbar } from "notistack";
 
 export function MyActiveTradesCard({ cardData }: {
   cardData: {
@@ -12,11 +14,31 @@ export function MyActiveTradesCard({ cardData }: {
     cryptoTwo: any,
     status: string,
   }}) {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const handleSendFunds = () => {
       window.location.href = `/accept-trade?escrowId=${cardData.escrowId}&userId=${cardData.userId}`;
     };
     const handleRefundTrade = () => {
-      window.location.href = `/cancel-escrow/${cardData.escrowId}&userId=${cardData.userId}`;
+      const cancelEscrow: AxiosRequestConfig = {
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${cardData.escrowId}`,
+        params: {
+          userId: cardData.userId,
+        }
+      };
+      void axios.request(cancelEscrow)
+        .then((res) => {
+          enqueueSnackbar(res.data.response, { variant: "info" });
+  
+          setTimeout(() => {
+            closeSnackbar();
+          }, 2000);
+        })
+        .catch((err) => {
+          enqueueSnackbar("Request not fullfiled successfully!", {
+            variant: "error",
+          });
+        });
     };
 
   return (
