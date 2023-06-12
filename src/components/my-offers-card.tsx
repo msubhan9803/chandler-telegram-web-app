@@ -1,7 +1,34 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import Button from "@/components/button";
+import axios, { AxiosRequestConfig } from "axios";
+import { useSnackbar } from "notistack";
 
 export default function MyOffersCard({ cardData }: any) {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const handleRemoveTrade = () => {
+      const cancelEscrow: AxiosRequestConfig = {
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/remove-trade/${cardData.trade_id}`,
+        params: {
+          userId: cardData.userId,
+        }
+      };
+      void axios.request(cancelEscrow)
+        .then((res) => {
+          enqueueSnackbar(res.data.response, { variant: "success" });
+
+          setTimeout(() => {
+            closeSnackbar();
+          }, 2000);
+        })
+        .catch((err) => {
+          enqueueSnackbar("Trade not removed successfully!", {
+            variant: "error",
+          });
+        });
+    };
+
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
@@ -74,12 +101,12 @@ export default function MyOffersCard({ cardData }: any) {
         </div>
 
         <div className="flex justify-end mt-3">
-          <button
-            type="button"
-            className="text-black bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center mr-2 mb-2 dark:focus:ring-red-900"
-          >
-            Remove
-          </button>
+        <Button
+              // TODO: disable if status is "refunding", "finalizing", "completed", "cancelled"
+              text="Remove"
+              handleClick={handleRemoveTrade}
+              classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
+            />
         </div>
       </div>
     </>
