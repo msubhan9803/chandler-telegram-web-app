@@ -103,7 +103,7 @@ export default function MyOffersCard({ cardData }: any) {
         <div className="flex justify-end mt-3">
         <Button
               text="Remove"
-              loading={['refunding','finalizing','completed','cancelled'].includes(cardData.status)}
+              disabled={['refunding','finalizing','completed','cancelled'].includes(cardData.status)}
               handleClick={handleRemoveTrade}
               classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
             />
