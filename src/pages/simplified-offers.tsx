@@ -53,7 +53,7 @@ const UserTrades = (state: { userId: string}) => {
       const getUserTradesListingsConfig: AxiosRequestConfig = {
         method: "GET",
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-list`,
-        data: {
+        params: {
           userId: state.userId,
         }
       };
