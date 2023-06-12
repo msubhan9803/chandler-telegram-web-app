@@ -15,34 +15,39 @@ declare global {
   }
 }
 
-const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { providingCrypto: { amount: string, name: string}}, state: { escrowId: string; trade_id: string, userId: string, username: string}, formState: { receivingCryptoAddr: string, providingCryptoAddr: string}, onError: (error: string, data: { variant: "error"}) => void) => {
+const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { providingCrypto: { calderaWalletAddress: string; amount: string, name: string}}, state: { escrowId: string; trade_id: string, userId: string, username: string}, formState: { receivingCryptoAddr: string, providingCryptoAddr: string}, onError: (error: string, data: { variant: "error"}) => void) => {
   const [calderaWalletAddress, setCalderaWalletAddress] = useState('');
   
     useEffect(() => {
-      if(!showReceiveAddressInfo || (state.escrowId && state.escrowId !== "")) return;
-      const guid = crypto.randomBytes(16).toString("hex");
-      // Set up the request payload
-      const startEscrowConfig: AxiosRequestConfig = {
-        method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
-        data: {
-          tradeId: state.trade_id,
-          endpoint: "http://api-tg.caldera.network/escrow-response/" + guid,
-          providerId: state.userId,
-          providerName: state.username,
-          providerWalletAddress: formState.providingCryptoAddr,
-          receiverWalletAddress: formState.receivingCryptoAddr,
-          userSource: "telegram",
-        }
-      };
-      void axios.request<{response: { escrowId: string; calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
-      .then(escrowResponseData => {
-        setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoOne);
-      })
-      .catch(error => {
-        onError(error.message, { variant: "error" });
-      })
-    }, [formState.receivingCryptoAddr, formState.providingCryptoAddr, onError, showReceiveAddressInfo, state.escrowId, state.trade_id, state.userId, state.username]);
+      if(!showReceiveAddressInfo) return;
+      
+      if (state.escrowId && state.escrowId !== "") {
+        setCalderaWalletAddress(tradeDetails.providingCrypto.calderaWalletAddress);
+      } else {
+        const guid = crypto.randomBytes(16).toString("hex");
+        // Set up the request payload
+        const startEscrowConfig: AxiosRequestConfig = {
+          method: "POST",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
+          data: {
+            tradeId: state.trade_id,
+            endpoint: "http://api-tg.caldera.network/escrow-response/" + guid,
+            providerId: state.userId,
+            providerName: state.username,
+            providerWalletAddress: formState.providingCryptoAddr,
+            receiverWalletAddress: formState.receivingCryptoAddr,
+            userSource: "telegram",
+          }
+        };
+        void axios.request<{response: { escrowId: string; calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
+        .then(escrowResponseData => {
+          setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoTwo);
+        })
+        .catch(error => {
+          onError(error.message, { variant: "error" });
+        })
+    }
+  }, [formState.receivingCryptoAddr, formState.providingCryptoAddr, onError, showReceiveAddressInfo, state.escrowId, state.trade_id, state.userId, state.username, tradeDetails.providingCrypto.calderaWalletAddress]);
     
     if(!showReceiveAddressInfo) return <div></div>;
     if (!calderaWalletAddress || calderaWalletAddress === "") return <div>Loading...</div>;
