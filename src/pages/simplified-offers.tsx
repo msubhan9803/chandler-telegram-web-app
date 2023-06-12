@@ -12,7 +12,7 @@ const UserActiveTrades = (state: { userId: string}) => {
       const getUserTradesListingsConfig: AxiosRequestConfig = {
         method: "GET",
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-active-trades-by-user`,
-        data: {
+        params: {
           userId: state.userId,
         }
       };
@@ -31,7 +31,7 @@ const UserActiveTrades = (state: { userId: string}) => {
       return (
         <>
               {userActiveTradeOffers.map((tradeOffer) => (
-                <MyActiveTradesCard // TODO: Change to MyTradesCard
+                <MyActiveTradesCard
                 key={tradeOffer.tradeId}
                 cardData={{
                   title: tradeOffer.tradeType === "take-all" ? "Buy All Trade" : "Partial Trade",
