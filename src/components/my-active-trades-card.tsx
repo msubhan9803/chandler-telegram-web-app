@@ -98,12 +98,13 @@ export function MyActiveTradesCard({ cardData }: {
         <div className="flex justify-between mt-3">
             <Button
               // TODO: disable if fully received from this user
+              loading={['refunding','finalizing','completed','cancelled'].includes(cardData.status)}
               text={"Send " + cardData.providingCurrency.toUpperCase()}
               handleClick={handleSendFunds}
               classes="bg-green-300 hover:bg-green-300 focus:outline-none focus:ring-4 focus:ring-green-300 text-black"
             />
             <Button
-              // TODO: disable if status is "refunding", "finalizing", "completed", "cancelled"
+              loading={['refunding','finalizing','completed','cancelled'].includes(cardData.status)}
               text="Refund Trade"
               handleClick={handleRefundTrade}
               classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
