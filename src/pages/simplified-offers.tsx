@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { MyActiveTradesCard } from "@/components/my-active-trades-card";
 
 const UserActiveTrades = (state: { userId: string}) => {
-  const [userActiveTradeOffers, setUserActiveTrades] = useState([] as { tradeId: string; cryptoOne: { amount: string; name: string; }; cryptoTwo: { amount: string; name: string; }; tradeType: "take-all" | "take-some"}[]);
+  const [userActiveTradeOffers, setUserActiveTrades] = useState([] as { status: string; escrowId: string; cryptoOne: { amount: string; amountReceived: string; name: string; }; cryptoTwo: { amount: string; name: string; amountReceived: string; }; tradeType: "take-all" | "take-some"}[]);
   
     useEffect(() => {
       if(!state.userId || state.userId === "") return;
@@ -16,7 +16,7 @@ const UserActiveTrades = (state: { userId: string}) => {
           userId: state.userId,
         }
       };
-      void axios.request<{response: { tradeId: string; cryptoOne: { amount: string; name: string; }; cryptoTwo: { amount: string; name: string; }; tradeType: "take-all" | "take-some"}[]}>(getUserTradesListingsConfig)
+      void axios.request<{response: { status: string; escrowId: string; cryptoOne: { amount: string; amountReceived: string; name: string; }; cryptoTwo: { amount: string; name: string; amountReceived: string; }; tradeType: "take-all" | "take-some"}[]}>(getUserTradesListingsConfig)
       .then(escrowResponseData => {
         console.log(escrowResponseData.data)
         setUserActiveTrades(escrowResponseData.data.response);
@@ -31,12 +31,17 @@ const UserActiveTrades = (state: { userId: string}) => {
         <>
               {userActiveTradeOffers.map((tradeOffer) => (
                 <MyActiveTradesCard
-                key={tradeOffer.tradeId}
+                key={tradeOffer.escrowId}
                 cardData={{
                   title: tradeOffer.tradeType === "take-all" ? "Buy All Trade" : "Partial Trade",
-                  amount: tradeOffer.cryptoOne.amount,
+                  amount: "0",
+                  cryptoOneAmount: tradeOffer.cryptoOne.amount,
+                  cryptoOneAmountReceived: tradeOffer.cryptoOne.amountReceived,
+                  cryptoTwoAmount: tradeOffer.cryptoTwo.amount,
+                  cryptoTwoAmountReceived: tradeOffer.cryptoTwo.amountReceived,
                   currency1image: `https://caldera.trade/images/coins/${tradeOffer.cryptoOne.name}.png`,
                   currency2image: `https://caldera.trade/images/coins/${tradeOffer.cryptoTwo.name}.png`,
+                  status: tradeOffer.status,
                 }} />
               ))}
         </>

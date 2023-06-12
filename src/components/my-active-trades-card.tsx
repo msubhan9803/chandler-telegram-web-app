@@ -73,6 +73,10 @@ export function MyActiveTradesCard({ cardData }: any) {
           </div>
         </div>
 
+        ------------- raw info -----------
+        status:{cardData.status}
+        amountOne: {cardData.cryptoOneAmountReceived} / {cardData.cryptoOneAmount}
+        amountTwo: {cardData.cryptoTwoAmountReceived} / {cardData.cryptoTwoAmount}
         <div className="flex justify-end mt-3">
           <button
             type="button"
