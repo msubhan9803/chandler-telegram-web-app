@@ -275,18 +275,6 @@ export default function AcceptTradeComponent({
 
             <div className="flex flex-col items-start justify-start gap-[18px] w-full">
               <div className="relative text-lg font-montserrat text-white text-left">
-                {tradeDetails.receivingCrypto.name.toUpperCase()} Address
-              </div>
-              <ReceiveAddressForm
-                name="receivingCryptoAddr"
-                handleOnChange={handleOnChange}
-                value={formState.receivingCryptoAddr}
-                error={errorState.receivingCryptoAddr}
-                disabled={disabledInput.receivingCryptoAddr}
-                placeholder="i.e d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF"
-              />
-
-              <div className="relative text-lg font-montserrat text-white text-left">
                 {tradeDetails.providingCrypto.name.toUpperCase()} Address
               </div>
               <ReceiveAddressForm
@@ -296,6 +284,17 @@ export default function AcceptTradeComponent({
                 error={errorState.providingCryptoAddr}
                 disabled={disabledInput.providingCryptoAddr}
                 placeholder="i.e kaspa:4v9dfc8y38fhnaa5tyhfr9etrxqpucux6gk78fafrwexgmsaketa7lthh7kzt"
+              />
+              <div className="relative text-lg font-montserrat text-white text-left">
+                {tradeDetails.receivingCrypto.name.toUpperCase()} Address
+              </div>
+              <ReceiveAddressForm
+                name="receivingCryptoAddr"
+                handleOnChange={handleOnChange}
+                value={formState.receivingCryptoAddr}
+                error={errorState.receivingCryptoAddr}
+                disabled={disabledInput.receivingCryptoAddr}
+                placeholder="i.e d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF"
               />
             </div>
             </>
