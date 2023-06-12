@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MyOffersCard from "@/components/my-offers-card";
 import axios, { AxiosRequestConfig } from "axios";
+import { MyActiveTradesCard } from "@/components/my-active-trades-card";
 
 const UserActiveTrades = (state: { userId: string}) => {
   const [userActiveTradeOffers, setUserActiveTrades] = useState([] as { tradeId: string; cryptoOne: { amount: string; name: string; }; cryptoTwo: { amount: string; name: string; }; tradeType: "take-all" | "take-some"}[]);
@@ -30,7 +31,7 @@ const UserActiveTrades = (state: { userId: string}) => {
       return (
         <>
               {userActiveTradeOffers.map((tradeOffer) => (
-                <MyOffersCard // TODO: Change to MyTradesCard
+                <MyActiveTradesCard // TODO: Change to MyTradesCard
                 key={tradeOffer.tradeId}
                 cardData={{
                   title: tradeOffer.tradeType === "take-all" ? "Buy All Trade" : "Partial Trade",
