@@ -27,7 +27,6 @@ const UserActiveTrades = (state: { userId: string}) => {
       }, [state.userId]);
       if (!userActiveTradeOffers) return <div>Loading...</div>;
 
-      // return userTradeOffers map of MyOffersCard
       return (
         <>
               {userActiveTradeOffers.map((tradeOffer) => (
@@ -68,7 +67,6 @@ const UserTrades = (state: { userId: string}) => {
       if (!userTradeOffers) return <div>Loading...</div>;
 
 
-      // return userTradeOffers map of MyOffersCard
       return (
         <>
               {userTradeOffers.map((tradeOffer) => (
