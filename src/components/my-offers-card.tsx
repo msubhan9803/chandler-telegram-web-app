@@ -23,7 +23,7 @@ export default function MyOffersCard({ cardData }: any) {
           }, 2000);
         })
         .catch((err) => {
-          enqueueSnackbar("Trade not removed successfully!", {
+          enqueueSnackbar("Failed to remove trade.", {
             variant: "error",
           });
         });
