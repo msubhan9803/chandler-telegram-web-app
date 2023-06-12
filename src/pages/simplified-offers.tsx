@@ -76,6 +76,7 @@ const UserTrades = (state: { userId: string}) => {
                 <MyOffersCard
                 key={tradeOffer.tradeId}
                 cardData={{
+                  tradeId: tradeOffer.tradeId,
                   title: tradeOffer.tradeType === "take-all" ? "Buy All Trade" : "Partial Trade",
                   amount: tradeOffer.cryptoOne.amount,
                   currency1image: `https://caldera.trade/images/coins/${tradeOffer.cryptoOne.name}.png`,

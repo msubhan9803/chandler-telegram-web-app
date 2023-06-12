@@ -9,7 +9,7 @@ export default function MyOffersCard({ cardData }: any) {
     const handleRemoveTrade = () => {
       const cancelEscrow: AxiosRequestConfig = {
         method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/remove-trade/${cardData.trade_id}`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/remove-trade/${cardData.tradeId}`,
         params: {
           userId: cardData.userId,
         }
