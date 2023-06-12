@@ -22,6 +22,8 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { prov
       if(!showReceiveAddressInfo) return;
       
       if (state.escrowId && state.escrowId !== "") {
+        console.log("hahahahahaa");
+        console.log(tradeDetails);
         setCalderaWalletAddress(tradeDetails.providingCrypto.calderaWalletAddress);
       } else {
         const guid = crypto.randomBytes(16).toString("hex");
@@ -213,6 +215,7 @@ export default function AcceptTradeComponent({
   };
 
   const handleTradeDetailsFetch = async (state: { trade_id: string; escrowId: string; userId: string;}) => {
+    console.log(state);
     if(state.trade_id && state.trade_id !== "") {
       const getTradeDetailsConfig: AxiosRequestConfig = {
         method: "GET",
@@ -241,6 +244,8 @@ export default function AcceptTradeComponent({
         receivingCrypto: state.userId === response.data.response.cryptoOne.providerId ? response.data.response.cryptoTwo : response.data.response.cryptoOne,
         ...response.data.response,
       });
+
+      console.log(tradeDetails.providingCrypto.name);
     }
   };
 

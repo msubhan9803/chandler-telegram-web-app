@@ -4,6 +4,7 @@ import Image from "next/image";
 
 export function MyActiveTradesCard({ cardData }: {
   cardData: {
+    userId: string,
     escrowId: string,
     providingCurrency: string,
     title: string,
@@ -12,10 +13,10 @@ export function MyActiveTradesCard({ cardData }: {
     status: string,
   }}) {
     const handleSendFunds = () => {
-      window.location.href = `/accept-trade?escrowId=${cardData.escrowId}`;
+      window.location.href = `/accept-trade?escrowId=${cardData.escrowId}&userId=${cardData.userId}`;
     };
     const handleRefundTrade = () => {
-      window.location.href = `/cancel-escrow/${cardData.escrowId}`;
+      window.location.href = `/cancel-escrow/${cardData.escrowId}&userId=${cardData.userId}`;
     };
 
   return (
