@@ -47,8 +47,8 @@ export default function MyOffers() {
     currencyB: "",
   });
   const [formState, setFormState] = useState({
-    currency1Addr: "",
-    currency2Addr: "",
+    receivingCryptoAddr: "",
+    providingCryptoAddr: "",
   });
 
   const closeModal = () => {

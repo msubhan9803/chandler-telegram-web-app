@@ -58,8 +58,8 @@ export default function OtcTrading() {
     currencyB: "",
   });
   const [formState, setFormState] = useState({
-    currency1Addr: "",
-    currency2Addr: "",
+    receivingCryptoAddr: "",
+    providingCryptoAddr: "",
   });
   const [currencyFilter, setCurrencyFilter] = useState({
     currencyOne: "",

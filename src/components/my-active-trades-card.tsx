@@ -1,19 +1,35 @@
 import React, { useState } from "react";
+import Button from "@/components/button";
 import Image from "next/image";
 
-export function MyActiveTradesCard({ cardData }: any) {
+export function MyActiveTradesCard({ cardData }: {
+  cardData: {
+    escrowId: string,
+    providingCurrency: string,
+    title: string,
+    cryptoOne: any,
+    cryptoTwo: any,
+    status: string,
+  }}) {
+    const handleSendFunds = () => {
+      window.location.href = `/accept-trade?escrowId=${cardData.escrowId}`;
+    };
+    const handleRefundTrade = () => {
+      window.location.href = `/cancel-escrow/${cardData.escrowId}`;
+    };
+
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
         <div className="bg-dark-gray font-thin text-white text-sm">
           <div className=" flex flex-wrap justify-center text-sm font-normal text-white my-3">
-            {cardData.title}
+            {cardData.title} ({cardData.status})
           </div>
         </div>
 
         <div className="my-3 flex flex-row justify-center gap-1">
           <Image
-            src={cardData.currency1image}
+            src={`https://caldera.trade/images/coins/${cardData.cryptoOne.name}.png`}
             alt=""
             className="max-w-full overflow-hidden max-h-full object-cover"
             width={32}
@@ -27,7 +43,7 @@ export function MyActiveTradesCard({ cardData }: any) {
             height="30"
           />
           <Image
-            src={cardData.currency2image}
+            src={`https://caldera.trade/images/coins/${cardData.cryptoTwo.name}.png`}
             alt=""
             className="max-w-full overflow-hidden max-h-full object-cover"
             width={32}
@@ -35,55 +51,40 @@ export function MyActiveTradesCard({ cardData }: any) {
           />
         </div>
 
-        <div className="flex flex-row justify-between">
-          <p className="text-gray-300 ">Ratio: 1:1</p>
-          <div className="flex gap-1 text-gray-300 ">
-            Fees:
-            <Image
-              src={cardData.currency1image}
+        <div className="flex flex-row">
+          <Image
+              src={`https://caldera.trade/images/coins/${cardData.cryptoOne.name}.png`}
               alt=""
               className="mx-1 h-5 w-5"
               width={16}
               height={16}
             />
-            2.5%
-          </div>
+          <p className="text-gray-300 "> Received: {cardData.cryptoOne.amountReceived} / {cardData.cryptoOne.amount}</p>
         </div>
-
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row ">
-            <p className="flex flex-row font-thin text-sm text-gray-300 ">
-              Amount:{" "}
-            </p>
-            <p className="ml-2 font-normal text-white text-sm">
-              {" "}
-              {cardData.amount}
-            </p>
-          </div>
-
-          <div className="flex flex-row gap-1  text-gray-300">
-            <Image
-              src={cardData.currency2image}
+        <div className="flex flex-row">
+          <Image
+              src={`https://caldera.trade/images/coins/${cardData.cryptoTwo.name}.png`}
               alt=""
               className="mx-1 h-5 w-5"
               width={16}
               height={16}
             />
-            2.5%
-          </div>
+          <p className="text-gray-300 "> Received: {cardData.cryptoTwo.amountReceived} / {cardData.cryptoTwo.amount}</p>
         </div>
 
-        ------------- raw info -----------
-        status:{cardData.status}
-        amountOne: {cardData.cryptoOneAmountReceived} / {cardData.cryptoOneAmount}
-        amountTwo: {cardData.cryptoTwoAmountReceived} / {cardData.cryptoTwoAmount}
-        <div className="flex justify-end mt-3">
-          <button
-            type="button"
-            className="text-black bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center mr-2 mb-2 dark:focus:ring-red-900"
-          >
-            Cancel
-          </button>
+        <div className="flex justify-between mt-3">
+            <Button
+              // TODO: disable if fully received from this user
+              text={"Send " + cardData.providingCurrency.toUpperCase()}
+              handleClick={handleSendFunds}
+              classes="bg-green-300 hover:bg-green-300 focus:outline-none focus:ring-4 focus:ring-green-300 text-black"
+            />
+            <Button
+              // TODO: disable if status is "refunding", "finalizing", "completed", "cancelled"
+              text="Refund Trade"
+              handleClick={handleRefundTrade}
+              classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
+            />
         </div>
       </div>
     </>

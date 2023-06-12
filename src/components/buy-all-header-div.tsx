@@ -1,16 +1,19 @@
-import type { NextPage } from "next";
 import Image from "next/image";
 
 const BuyAllHeaderDiv = ({
-  imagesState,
-  tradeDetails
+  providingCrypto,
+  receivingCrypto,
 }: {
-  imagesState: {
-    image1: string;
-    image2: string;
+  providingCrypto: {
+    name: string;
+    amount: string;
   };
-  tradeDetails: any;
+  receivingCrypto: {
+    name: string;
+    amount: string;
+  };
 }) => {
+  if(providingCrypto.name === '') return <></>;
   return (
     <div className="w-full md:1/4 rounded-lg bg-zinc-700 shadow-md flex flex-col p-[9px] items-center justify-start gap-[9px] text-left text-base text-white font-montserrat">
       <div className="flex flex-col items-start justify-center gap-[9px]">
@@ -19,12 +22,11 @@ const BuyAllHeaderDiv = ({
             Buy All Trade
           </h4>
         </div>
-        {imagesState.image1 && imagesState.image2 && (
           <div className="flex flex-row items-center justify-center gap-[9px]">
             <Image
               className="max-w-full overflow-hidden max-h-full object-cover"
               alt=""
-              src={imagesState.image1}
+              src={`https://caldera.trade/images/coins/${providingCrypto.name}.png`}
               width="30"
               height="30"
               loading="lazy"
@@ -39,13 +41,12 @@ const BuyAllHeaderDiv = ({
             <Image
               className="max-w-full overflow-hidden max-h-full object-cover"
               alt=""
-              src={imagesState.image2}
+              src={`https://caldera.trade/images/coins/${receivingCrypto.name}.png`}
               width="30"
               height="30"
               loading="lazy"
             />
           </div>
-        )}
       </div>
       <div className="flex flex-col items-center justify-end text-sm">
         <div className="flex flex-col items-start justify-center gap-[9px]">
@@ -56,8 +57,7 @@ const BuyAllHeaderDiv = ({
             </div>
             <div className="flex flex-row items-start justify-start space-x-4">
               <div className="min-w-[60px] font-light">Amount:</div>
-              <div className="font-montserrat">{tradeDetails.cryptoOne.amount} {tradeDetails.cryptoOne.name.toUpperCase()}</div>
-              <div className="font-montserrat">{tradeDetails.cryptoTwo.amount} {tradeDetails.cryptoTwo.name.toUpperCase()}</div>
+              <div className="font-montserrat">{providingCrypto.amount} {providingCrypto.name.toUpperCase()}</div>
             </div>
             <div className="flex flex-row items-start justify-start space-x-4">
               <div className="min-w-[60px] font-light">Fee:</div>
@@ -69,7 +69,7 @@ const BuyAllHeaderDiv = ({
                       height="15"
                       className="relative w-6 h-6 shrink-0 overflow-hidden"
                       alt=""
-                      src={imagesState.image1}
+                      src={`https://caldera.trade/images/coins/${providingCrypto.name}.png`}
                     />
                     <div className="relative font-light">2.5%</div>
                   </div>
@@ -79,7 +79,7 @@ const BuyAllHeaderDiv = ({
                       height="15"
                       className="relative w-6 h-6 shrink-0 overflow-hidden"
                       alt=""
-                      src={imagesState.image2}
+                      src={`https://caldera.trade/images/coins/${receivingCrypto.name}.png`}
                     />
                     <div className="relative font-light">2.5%</div>
                   </div>

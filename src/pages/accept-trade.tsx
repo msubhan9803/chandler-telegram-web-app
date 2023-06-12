@@ -8,20 +8,20 @@ declare global {
   }
 }
 
-const CreateTrade: NextPage = () => {
+const AcceptTrade: NextPage = () => {
   const [state, setState] = useState({
     userId: "",
     username: "",
     chatId: "",
     trade_id: "",
+    escrowId: "",
     currencyA: "",
     currencyB: "",
   });
   const [formState, setFormState] = useState({
-    currency1Addr: "",
-    currency2Addr: "",
+    receivingCryptoAddr: "",
+    providingCryptoAddr: "",
   });
-  const [telegram, setTelegram] = useState("");
 
   const handleClose = () => {
     window.Telegram.WebApp.close();
@@ -35,6 +35,7 @@ const CreateTrade: NextPage = () => {
       const username = urlParams.get("username") as string;
       const chatId = urlParams.get("chatId") as string;
       const trade_id = urlParams.get("trade_id") as string;
+      const escrowId = urlParams.get("escrowId") as string;
       const currencyA = urlParams.get("currencyA") as string;
       const currencyB = urlParams.get("currencyB") as string;
 
@@ -43,13 +44,10 @@ const CreateTrade: NextPage = () => {
         username,
         chatId,
         trade_id,
+        escrowId,
         currencyA,
         currencyB,
       });
-    }
-
-    if (window.Telegram) {
-      setTelegram(window.Telegram);
     }
   }, []);
 
@@ -66,4 +64,4 @@ const CreateTrade: NextPage = () => {
   );
 };
 
-export default CreateTrade;
+export default AcceptTrade;

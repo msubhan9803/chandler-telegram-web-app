@@ -15,11 +15,11 @@ declare global {
   }
 }
 
-const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryptoOne: { amount: string, name: string}}, state: { trade_id: string, userId: string, username: string}, formState: { currency1Addr: string, currency2Addr: string}, onError: (error: string, data: { variant: "error"}) => void) => {
+const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { providingCrypto: { amount: string, name: string}}, state: { escrowId: string; trade_id: string, userId: string, username: string}, formState: { receivingCryptoAddr: string, providingCryptoAddr: string}, onError: (error: string, data: { variant: "error"}) => void) => {
   const [calderaWalletAddress, setCalderaWalletAddress] = useState('');
   
     useEffect(() => {
-      if(!showReceiveAddressInfo) return;
+      if(!showReceiveAddressInfo || (state.escrowId && state.escrowId !== "")) return;
       const guid = crypto.randomBytes(16).toString("hex");
       // Set up the request payload
       const startEscrowConfig: AxiosRequestConfig = {
@@ -30,29 +30,30 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { cryp
           endpoint: "http://api-tg.caldera.network/escrow-response/" + guid,
           providerId: state.userId,
           providerName: state.username,
-          providerWalletAddress: formState.currency1Addr,
-          receiverWalletAddress: formState.currency2Addr,
+          providerWalletAddress: formState.providingCryptoAddr,
+          receiverWalletAddress: formState.receivingCryptoAddr,
           userSource: "telegram",
         }
       };
-      void axios.request<{response: { calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
+      void axios.request<{response: { escrowId: string; calderaWalletAddressCryptoOne: string; calderaWalletAddressCryptoTwo: string;}}>(startEscrowConfig)
       .then(escrowResponseData => {
         setCalderaWalletAddress(escrowResponseData.data.response.calderaWalletAddressCryptoOne);
       })
       .catch(error => {
         onError(error.message, { variant: "error" });
       })
-      }, [formState.currency1Addr, formState.currency2Addr, onError, showReceiveAddressInfo, state.trade_id, state.userId, state.username]);
-      if(!showReceiveAddressInfo) return <div></div>;
-      if (!calderaWalletAddress) return <div>Loading...</div>;
-  
-      return (
-        <ReceiveAddressInfo
-                  amount={tradeDetails.cryptoOne.amount}
-                  currency={tradeDetails.cryptoOne.name.toUpperCase()}
-                  address={calderaWalletAddress}
-                />
-      );
+    }, [formState.receivingCryptoAddr, formState.providingCryptoAddr, onError, showReceiveAddressInfo, state.escrowId, state.trade_id, state.userId, state.username]);
+    
+    if(!showReceiveAddressInfo) return <div></div>;
+    if (!calderaWalletAddress || calderaWalletAddress === "") return <div>Loading...</div>;
+
+    return (
+      <ReceiveAddressInfo
+                amount={tradeDetails.providingCrypto.amount}
+                currency={tradeDetails.providingCrypto.name.toUpperCase()}
+                address={calderaWalletAddress}
+              />
+    );
   };
 
 export default function AcceptTradeComponent({
@@ -69,16 +70,12 @@ export default function AcceptTradeComponent({
   const [progress, setProgress] = useState(0);
   const [showReceiveAddressInfo, setShowReceiveAddressInfo] = useState(false);
   const [disabledInput, setDisabledInput] = useState({
-    currency1Addr: false,
-    currency2Addr: false,
-  });
-  const [imagesState, setImagesState] = useState({
-    image1: "",
-    image2: "",
+    receivingCryptoAddr: false,
+    providingCryptoAddr: false,
   });
   const [errorState, setErrorState] = useState({
-    currency1Addr: "",
-    currency2Addr: "",
+    receivingCryptoAddr: "",
+    providingCryptoAddr: "",
   });
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -88,14 +85,14 @@ export default function AcceptTradeComponent({
   const [tradeDetails, setTradeDetails] = useState({
     _id: "",
     tradeType: "",
-    cryptoOne: {
+    providingCrypto: {
       amount: "",
       name: "",
       providerId: "",
       providerName: "",
       userSource: "",
     },
-    cryptoTwo: {
+    receivingCrypto: {
       amount: "",
       name: "",
     },
@@ -108,22 +105,22 @@ export default function AcceptTradeComponent({
   function validateForm() {
     let newErrorState = { ...errorState };
 
-    if (!formState.currency1Addr) {
-      newErrorState.currency1Addr = "Field is required";
+    if (!formState.receivingCryptoAddr) {
+      newErrorState.receivingCryptoAddr = "Field is required";
     } else {
-      newErrorState.currency1Addr = "";
+      newErrorState.receivingCryptoAddr = "";
     }
 
-    if (!formState.currency2Addr) {
-      newErrorState.currency2Addr = "Field is required";
+    if (!formState.providingCryptoAddr) {
+      newErrorState.providingCryptoAddr = "Field is required";
     } else {
-      newErrorState.currency2Addr = "";
+      newErrorState.providingCryptoAddr = "";
     }
 
     setErrorState(newErrorState);
 
     // Check if there are any errors
-    return !(newErrorState.currency1Addr || newErrorState.currency2Addr);
+    return !(newErrorState.receivingCryptoAddr || newErrorState.providingCryptoAddr);
   }
 
   const handleNext = (e: Event) => {
@@ -137,8 +134,8 @@ export default function AcceptTradeComponent({
       setSubmitLoading(false);
       setProgress(50);
       setDisabledInput({
-        currency1Addr: true,
-        currency2Addr: true,
+        receivingCryptoAddr: true,
+        providingCryptoAddr: true,
       });
       setShowReceiveAddressInfo(true);
       void addTrader();
@@ -161,18 +158,17 @@ export default function AcceptTradeComponent({
     setStep(step+1);
   };
 
-  const handlePrev = async () => {
+  const handlePrev = () => {
     setCancelLoading(true);
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${state.trade_id}`,
-      {
-        method: "POST",
-      }
-    )
-      .then((res) => res.json())
+
+    const cancelEscrow: AxiosRequestConfig = {
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/cancel-escrow/${state.escrowId}`,
+    };
+    void axios.request(cancelEscrow)
       .then((res) => {
         setCancelLoading(false);
-        enqueueSnackbar(res.message, { variant: "info" });
+        enqueueSnackbar(res.data.response, { variant: "info" });
 
         setTimeout(() => {
           closeSnackbar();
@@ -210,34 +206,36 @@ export default function AcceptTradeComponent({
     }
   };
 
-  const handleGetAssets = async (currencyA: string, currencyB: string) => {
-    const listOfAssets = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-list-of-assets`
-    ).then((res: any) => res.json());
-
-    const currencyOne = listOfAssets.asset_list.find(
-      (elem: any) => elem.label.toLowerCase() === currencyA
-    );
-    const currencyTwo = listOfAssets.asset_list.find(
-      (elem: any) => elem.label.toLowerCase() === currencyB
-    );
-
-    setImagesState({
-      image1: currencyOne.image,
-      image2: currencyTwo.image,
-    });
-  };
-
-  const handleTradeDetailsFetch = async (trade_id: string) => {
-    const getTradeDetailsConfig: AxiosRequestConfig = {
-      method: "GET",
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details/${trade_id}`,
+  const handleTradeDetailsFetch = async (state: { trade_id: string; escrowId: string; userId: string;}) => {
+    if(state.trade_id && state.trade_id !== "") {
+      const getTradeDetailsConfig: AxiosRequestConfig = {
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details/${state.trade_id}`,
+      }
+      const response = await axios.request<{
+        response: any
+      }>(getTradeDetailsConfig);
+  
+      setTradeDetails({
+        providingCrypto: state.userId === response.data.response.cryptoOne.providerId ? response.data.response.cryptoOne : response.data.response.cryptoTwo,
+        receivingCrypto: state.userId === response.data.response.cryptoOne.providerId ? response.data.response.cryptoTwo : response.data.response.cryptoOne,
+        ...response.data.response,
+      });
+    } else if (state.escrowId && state.escrowId !== "") {
+      const getTradeDetailsConfig: AxiosRequestConfig = {
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-details-by-escrow-id/${state.escrowId}`,
+      }
+      const response = await axios.request<{
+        response: any
+      }>(getTradeDetailsConfig);
+  
+      setTradeDetails({
+        providingCrypto: state.userId === response.data.response.cryptoOne.providerId ? response.data.response.cryptoOne : response.data.response.cryptoTwo,
+        receivingCrypto: state.userId === response.data.response.cryptoOne.providerId ? response.data.response.cryptoTwo : response.data.response.cryptoOne,
+        ...response.data.response,
+      });
     }
-    const response = await axios.request<{
-      tradeDetailsResult: any
-    }>(getTradeDetailsConfig);
-
-    setTradeDetails(response.data.tradeDetailsResult);
   };
 
   const handleOnChange = (e: any) => {
@@ -248,10 +246,7 @@ export default function AcceptTradeComponent({
   };
 
   useEffect(() => {
-    if (state.currencyA && state.currencyB && state.trade_id) {
-      handleGetAssets(state.currencyA, state.currencyB);
-      handleTradeDetailsFetch(state.trade_id);
-    }
+    handleTradeDetailsFetch(state);
   }, [state]);
 
   return (
@@ -271,42 +266,44 @@ export default function AcceptTradeComponent({
               `${isModal ? "w-full" : "w-full md:w-3/4 lg:w-1/2"}`
             }
           >
+            {tradeDetails.receivingCrypto && (
+              <>
             <BuyAllHeaderDiv
-              tradeDetails={tradeDetails}
-              imagesState={imagesState}
+              providingCrypto={tradeDetails.providingCrypto}
+              receivingCrypto={tradeDetails.receivingCrypto}
             />
 
             <div className="flex flex-col items-start justify-start gap-[18px] w-full">
               <div className="relative text-lg font-montserrat text-white text-left">
-                {tradeDetails.cryptoTwo.name.toUpperCase()} Address
+                {tradeDetails.receivingCrypto.name.toUpperCase()} Address
               </div>
               <ReceiveAddressForm
-                name="currency1Addr"
+                name="receivingCryptoAddr"
                 handleOnChange={handleOnChange}
-                value={formState.currency1Addr}
-                error={errorState.currency1Addr}
-                disabled={disabledInput.currency1Addr}
+                value={formState.receivingCryptoAddr}
+                error={errorState.receivingCryptoAddr}
+                disabled={disabledInput.receivingCryptoAddr}
                 placeholder="i.e d1J1WymQy1aVqstxWdY7wE6V1RNFtHkK68g3KKW1Sc3rUmBVF"
               />
 
               <div className="relative text-lg font-montserrat text-white text-left">
-                {tradeDetails.cryptoOne.name.toUpperCase()} Address
+                {tradeDetails.providingCrypto.name.toUpperCase()} Address
               </div>
               <ReceiveAddressForm
-                name="currency2Addr"
+                name="providingCryptoAddr"
                 handleOnChange={handleOnChange}
-                value={formState.currency2Addr}
-                error={errorState.currency2Addr}
-                disabled={disabledInput.currency2Addr}
+                value={formState.providingCryptoAddr}
+                error={errorState.providingCryptoAddr}
+                disabled={disabledInput.providingCryptoAddr}
                 placeholder="i.e kaspa:4v9dfc8y38fhnaa5tyhfr9etrxqpucux6gk78fafrwexgmsaketa7lthh7kzt"
               />
             </div>
+            </>
+            )}
 
             <CustomProgressBar progress={progress} />
 
-            {/* {showReceiveAddressInfo && ( */}
             { SendToCalderaInfo(showReceiveAddressInfo, tradeDetails,state,formState, enqueueSnackbar)}
-            {/* )} */}
           </div>
           <div className="h-[116px] shrink-0 flex flex-col p-[9px] box-border items-center justify-center gap-[18px]">
             <Button
