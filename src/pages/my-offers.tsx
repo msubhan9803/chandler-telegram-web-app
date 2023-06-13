@@ -66,7 +66,7 @@ export default function MyOffers() {
           <Loader />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
-            {tradesList.map((card, index) => (
+            {tradesList?.map((card, index) => (
               <MyOffersCard key={index} cardData={card} handleFetchTradeList={handleFetchTradeList} />
             ))}
           </div>

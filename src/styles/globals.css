@@ -32,3 +32,12 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
    -moz-appearance: textfield !important;
 }
+
+@media (max-width: 920px) {
+  .translate-y-half-enter {
+    transform: translate(0, 50%);
+  }
+  .translate-y-half-leave {
+    transform: translate(0, 100%);
+  }
+}
