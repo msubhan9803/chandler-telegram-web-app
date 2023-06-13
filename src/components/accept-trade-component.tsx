@@ -31,7 +31,7 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { prov
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
           data: {
             tradeId: state.trade_id,
-            endpoint: "http://api-tg.caldera.network/escrow-response/" + guid,
+            endpoint: "https://api-tg.caldera.network/escrow-response/" + guid,
             providerId: state.userId,
             providerName: state.username,
             providerWalletAddress: formState.providingCryptoAddr,
