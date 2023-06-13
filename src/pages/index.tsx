@@ -4,6 +4,7 @@ import MainLayout from "@/layouts/main-layout";
 import OtcTradingCard from "@/components/otc-trading-card";
 import StartTradeModel from "@/components/start-trade-model";
 import CurrencyFilterModal from "@/components/currency-filter-modal";
+import TypeAmountFilterModal from "@/components/type-amount-filter-modal";
 import Spinner from "@/components/spinner";
 
 export default function OtcTrading() {
@@ -26,6 +27,7 @@ export default function OtcTrading() {
     currencyTwo: "",
   });
   const [isCurrencyFilterOpen, setIsCurrencyFilterOpen] = useState(false);
+  const [isTypeAmountFilterOpen, setIsTypeAmountFilterOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const closeModal = () => {
@@ -42,6 +44,10 @@ export default function OtcTrading() {
 
   const handleCurrencyFilterClose = () => {
     setIsCurrencyFilterOpen(!isCurrencyFilterOpen);
+  };
+
+  const toggleTypeAmountFilterClose = () => {
+    setIsTypeAmountFilterOpen(!isTypeAmountFilterOpen);
   };
 
   const handleFetchTradeList = async () => {
@@ -97,7 +103,7 @@ export default function OtcTrading() {
   return (
     <>
       <MainLayout>
-        <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} />
+        <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} toggleTypeAmountFilterClose={toggleTypeAmountFilterClose} />
 
         {loading ? (
           <Loader />
@@ -132,6 +138,11 @@ export default function OtcTrading() {
           setIsCurrencyFilterOpen={setIsCurrencyFilterOpen}
           handleCurrencyFilterClose={handleCurrencyFilterClose}
           handleFilterUpdate={handleFilterUpdate}
+        />
+
+        <TypeAmountFilterModal
+          isOpen={isTypeAmountFilterOpen}
+          handleClose={toggleTypeAmountFilterClose}
         />
       </MainLayout>
     </>

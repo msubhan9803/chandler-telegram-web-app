@@ -65,7 +65,7 @@ function MobileViewDropdown({ tabsList, pathname }: any) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute pl-0 py-1 px-1 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="z-50 absolute pl-0 py-1 px-1 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {tabsList.map((tab: any, index: any) => (
                 <Listbox.Option
                   key={index}
@@ -105,7 +105,7 @@ function MobileViewDropdown({ tabsList, pathname }: any) {
 
 function OtherViewTabs({ tabsList, pathname }: any) {
   return (
-    <div className="hidden md:block text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700 mx-auto max-w-full overflow-x-auto p-[12px]">
+    <div  className="hidden md:block text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700 mx-auto max-w-full overflow-x-auto p-[12px]">
       <ul className="flex flex-wrap justify-center m-auto -mb-px w-[462px]">
         {tabsList.map((tab: any, index: any) => (
           <li className="mr-2" key={index}>

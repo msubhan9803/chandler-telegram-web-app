@@ -16,7 +16,8 @@ module.exports = {
         'secondary-light': '#F5B9A8',
         'secondary-dark': '#E3795B',
         'custom-blue': '#0a4074',
-        'custom-second-blue': '#1e69a0'
+        'custom-second-blue': '#1e69a0',
+        'background-dark': '#1c1c1c'
       }
     },
   },
