@@ -1,42 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "@/layouts/main-layout";
 import MyOffersCard from "@/components/my-offers-card";
 import OfferButton from "@/components/my-offers-button";
 import CreateTradeModel from "@/components/create-trade-model";
+import Spinner from "@/components/spinner";
 
 export default function MyOffers() {
-  const cardObjects = [
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Partial Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Partial Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-    {
-      title: "Buy All Trade",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [tradesList, setTradesList] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState({
     userId: "",
@@ -63,6 +34,27 @@ export default function MyOffers() {
     closeModal();
   };
 
+  const handleFetchTradeList = async () => {
+    setLoading(true);
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-list`;
+
+    const data = await fetch(url).then((res) => res.json());
+    setTradesList(data.response);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    handleFetchTradeList();
+  }, []);
+
+  const Loader = () => {
+    return (
+      <div className="h-96 flex justify-center items-center m-auto">
+        <Spinner />
+      </div>
+    );
+  };
+
   return (
     <>
       <MainLayout>
@@ -70,11 +62,15 @@ export default function MyOffers() {
           <OfferButton handleClick={openModal} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
-          {cardObjects.map((card, index) => (
-            <MyOffersCard key={index} cardData={card} />
-          ))}
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
+            {tradesList.map((card, index) => (
+              <MyOffersCard key={index} cardData={card} handleFetchTradeList={handleFetchTradeList} />
+            ))}
+          </div>
+        )}
 
         <CreateTradeModel
           isOpen={isOpen}

@@ -3,44 +3,51 @@ import Image from "next/image";
 import Button from "@/components/button";
 import axios, { AxiosRequestConfig } from "axios";
 import { useSnackbar } from "notistack";
+import { getUnderscorePascalCase } from "@/utils/helpers";
 
-export default function MyOffersCard({ cardData }: any) {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const handleRemoveTrade = () => {
-      const cancelEscrow: AxiosRequestConfig = {
-        method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/remove-trade/${cardData.tradeId}`,
-        params: {
-          userId: cardData.userId,
-        }
-      };
-      void axios.request(cancelEscrow)
-        .then((res) => {
-          enqueueSnackbar(res.data.response, { variant: "success" });
-
-          setTimeout(() => {
-            closeSnackbar();
-          }, 2000);
-        })
-        .catch((err) => {
-          enqueueSnackbar("Failed to remove trade.", {
-            variant: "error",
-          });
-        });
+export default function MyOffersCard({ cardData, handleFetchTradeList }: any) {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const handleRemoveTrade = () => {
+    const cancelEscrow: AxiosRequestConfig = {
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/remove-trade/${cardData.tradeId}`,
     };
+    void axios
+      .request(cancelEscrow)
+      .then((res) => {
+        enqueueSnackbar(res.data.message, { variant: "success" });
+        handleFetchTradeList();
+
+        setTimeout(() => {
+          closeSnackbar();
+        }, 2000);
+      })
+      .catch((err) => {
+        enqueueSnackbar("Failed to remove trade.", {
+          variant: "error",
+        });
+      });
+  };
+
+  const getImage = (currencyName: string) => {
+    return `https://caldera.trade/images/coins/${currencyName}.png`;
+  };
+
+  const currencyOneImage = getImage(cardData?.cryptoOne?.name);
+  const currencyTwoImage = getImage(cardData?.cryptoTwo?.name);
 
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
         <div className="bg-dark-gray font-thin text-white text-sm">
           <div className=" flex flex-wrap justify-center text-sm font-normal text-white my-3">
-            {cardData.title}
+            {getUnderscorePascalCase(cardData.tradeType)}
           </div>
         </div>
 
         <div className="my-3 flex flex-row justify-center gap-1">
           <Image
-            src={cardData.currency1image}
+            src={currencyOneImage}
             alt=""
             className="max-w-full overflow-hidden max-h-full object-cover"
             width={32}
@@ -54,7 +61,7 @@ export default function MyOffersCard({ cardData }: any) {
             height="30"
           />
           <Image
-            src={cardData.currency2image}
+            src={currencyTwoImage}
             alt=""
             className="max-w-full overflow-hidden max-h-full object-cover"
             width={32}
@@ -67,7 +74,7 @@ export default function MyOffersCard({ cardData }: any) {
           <div className="flex gap-1 text-gray-300 ">
             Fees:
             <Image
-              src={cardData.currency1image}
+              src={currencyOneImage}
               alt=""
               className="mx-1 h-5 w-5"
               width={16}
@@ -84,13 +91,13 @@ export default function MyOffersCard({ cardData }: any) {
             </p>
             <p className="ml-2 font-normal text-white text-sm">
               {" "}
-              {cardData.amount}
+              {cardData?.cryptoOne?.amount}
             </p>
           </div>
 
           <div className="flex flex-row gap-1  text-gray-300">
             <Image
-              src={cardData.currency2image}
+              src={currencyTwoImage}
               alt=""
               className="mx-1 h-5 w-5"
               width={16}
@@ -101,12 +108,17 @@ export default function MyOffersCard({ cardData }: any) {
         </div>
 
         <div className="flex justify-end mt-3">
-        <Button
-              text="Remove"
-              disabled={['refunding','finalizing','completed','cancelled'].includes(cardData.status)}
-              handleClick={handleRemoveTrade}
-              classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
-            />
+          <Button
+            text="Remove"
+            disabled={[
+              "refunding",
+              "finalizing",
+              "completed",
+              "cancelled",
+            ].includes(cardData.status)}
+            handleClick={handleRemoveTrade}
+            classes="bg-red-300 hover:bg-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 text-black"
+          />
         </div>
       </div>
     </>
