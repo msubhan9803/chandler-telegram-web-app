@@ -141,7 +141,7 @@ export default function CurrencyFilterComponent({
         {disclosures.map(({ id, isOpen, buttonText, type }, index) => (
           <>
             <button
-              className="flex flex-col w-full rounded-3xl bg-[#1c1c1c] px-4 py-2 text-left text-sm font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-opacity-75"
+              className="flex flex-col w-full rounded-3xl bg-background-dark px-4 py-2 text-left text-sm font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-opacity-75"
               onClick={() => handleDisclosuerClick(id)}
               aria-expanded={isOpen}
               {...(isOpen && { "aria-controls": id })}
@@ -151,7 +151,7 @@ export default function CurrencyFilterComponent({
               <span className="m-auto">Select coin</span>
             </button>
             {isOpen && (
-              <div className="px-4 pt-4 pb-2 text-sm text-gray-500 bg-[#1c1c1c] rounded-3xl">
+              <div className="px-4 pt-4 pb-2 text-sm text-gray-500 bg-background-dark rounded-3xl">
                 <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
                   <div className="flex flex-col items-center justify-center gap-[18px] m-auto">
                     {currencyList.length === 0 ? (
