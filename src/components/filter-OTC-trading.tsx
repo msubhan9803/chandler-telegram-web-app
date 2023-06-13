@@ -3,7 +3,7 @@ import { FunnelIcon } from "@heroicons/react/24/outline";
 
 export default function FilterOTCtrading({
   handleCurrencyFilterClose,
-  toggleTypeAmountFilterClose,
+  handleTypeAmountFilterOpen,
 }: any) {
   return (
     <>
@@ -33,7 +33,7 @@ export default function FilterOTCtrading({
           </button>
 
           <button
-            onClick={toggleTypeAmountFilterClose}
+            onClick={handleTypeAmountFilterOpen}
             className="ml-8 p-2 text-white rounded-full bg-zinc-800 border-1 drop-shadow-lg"
           >
             <FunnelIcon className="h-6 m-auto" />

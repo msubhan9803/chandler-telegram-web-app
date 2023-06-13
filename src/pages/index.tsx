@@ -42,14 +42,6 @@ export default function OtcTrading() {
     closeModal();
   };
 
-  const handleCurrencyFilterClose = () => {
-    setIsCurrencyFilterOpen(!isCurrencyFilterOpen);
-  };
-
-  const toggleTypeAmountFilterClose = () => {
-    setIsTypeAmountFilterOpen(!isTypeAmountFilterOpen);
-  };
-
   const handleFetchTradeList = async () => {
     setLoading(true);
     let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-list`;
@@ -61,6 +53,19 @@ export default function OtcTrading() {
     const data = await fetch(url).then((res) => res.json());
     setTradesList(data.response);
     setLoading(false);
+  };
+
+  const handleCurrencyFilterClose = () => {
+    setIsCurrencyFilterOpen(!isCurrencyFilterOpen);
+  };
+
+  const handleTypeAmountFilterOpen = () => {
+    setIsTypeAmountFilterOpen(true);
+  };
+
+  const handleTypeAmountFilterClose = () => {
+    setIsTypeAmountFilterOpen(!isTypeAmountFilterOpen);
+    handleFetchTradeList();
   };
 
   const handleFilterUpdate = (values: any) => {
@@ -103,7 +108,7 @@ export default function OtcTrading() {
   return (
     <>
       <MainLayout>
-        <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} toggleTypeAmountFilterClose={toggleTypeAmountFilterClose} />
+        <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} handleTypeAmountFilterOpen={handleTypeAmountFilterOpen} />
 
         {loading ? (
           <Loader />
@@ -142,7 +147,7 @@ export default function OtcTrading() {
 
         <TypeAmountFilterModal
           isOpen={isTypeAmountFilterOpen}
-          handleClose={toggleTypeAmountFilterClose}
+          handleClose={handleTypeAmountFilterClose}
         />
       </MainLayout>
     </>
