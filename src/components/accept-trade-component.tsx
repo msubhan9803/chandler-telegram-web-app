@@ -22,8 +22,6 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { prov
       if(!showReceiveAddressInfo) return;
       
       if (state.escrowId && state.escrowId !== "") {
-        console.log("hahahahahaa");
-        console.log(tradeDetails);
         setCalderaWalletAddress(tradeDetails.providingCrypto.calderaWalletAddress);
       } else {
         const guid = crypto.randomBytes(16).toString("hex");
