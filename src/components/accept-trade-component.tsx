@@ -24,14 +24,13 @@ const SendToCalderaInfo = (showReceiveAddressInfo: boolean, tradeDetails: { prov
       if (state.escrowId && state.escrowId !== "") {
         setCalderaWalletAddress(tradeDetails.providingCrypto.calderaWalletAddress);
       } else {
-        const guid = crypto.randomBytes(16).toString("hex");
         // Set up the request payload
         const startEscrowConfig: AxiosRequestConfig = {
           method: "POST",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/escrow/start-escrow`,
           data: {
             tradeId: state.trade_id,
-            endpoint: "https://api-tg.caldera.network/escrow-response/" + guid,
+            endpoint: "https://api-tg.caldera.network/escrow/escrow-response",
             providerId: state.userId,
             providerName: state.username,
             providerWalletAddress: formState.providingCryptoAddr,
