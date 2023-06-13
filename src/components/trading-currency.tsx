@@ -14,6 +14,7 @@ export default function TradingCurrency({
   handleTradingSubmit,
   loading,
   showLoader,
+  setSelectCurrency,
 }: {
   id: any;
   isOpen: any;
@@ -27,6 +28,7 @@ export default function TradingCurrency({
   handleTradingSubmit: any;
   loading: boolean;
   showLoader: boolean;
+  setSelectCurrency: any;
 }) {
   return (
     <>
@@ -52,6 +54,7 @@ export default function TradingCurrency({
             handleTradingSubmit={handleTradingSubmit}
             loading={loading}
             showLoader={showLoader}
+            setSelectCurrency={setSelectCurrency}
           />
         </div>
       )}

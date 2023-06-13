@@ -1,4 +1,6 @@
+import React, { useState } from "react";
 import Image from "next/image";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Spinner from "./spinner";
 
 export default function CreateTradeCurrency({
@@ -11,6 +13,7 @@ export default function CreateTradeCurrency({
   handleTradingSubmit,
   loading,
   showLoader,
+  setSelectCurrency
 }: {
   id: any;
   selectedCurrency: any;
@@ -24,63 +27,42 @@ export default function CreateTradeCurrency({
   handleTradingSubmit: (id: string) => void;
   loading: boolean;
   showLoader: boolean;
+  setSelectCurrency: any;
 }) {
+
+  const toggleCurrencyEditing = () => setSelectCurrency({
+    ...selectedCurrency,
+    isCurrencyEditing: !selectedCurrency.isCurrencyEditing
+  });
+
+  const handleCurrencySelectChange = (index: number, currency: string) => {
+    toggleCurrencyEditing();
+    handleCurrencySelect(index, currency);
+  }
+
   return (
     <div className="relative rounded-t-3xs rounded-b-none bg-caldera-l-blue w-full flex flex-col py-[9px] px-2.5 box-border items-start justify-start text-left text-sm text-white font-montserrat">
       <div className="flex flex-col items-center justify-center gap-[18px] m-auto">
-        {
-        currencyList.length === 0 ? (
+        {currencyList.length === 0 ? (
           <div className="h-96 flex justify-center items-center m-auto">
             <Spinner />
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
-            {currencyList.map((currency, index) => (
-              <button
-                key={index}
-                className={`
-                      ${
-                        selectedCurrency.index === index
-                          ? "bg-zinc-600"
-                          : "bg-none"
-                      }
-                      cursor-pointer
-                      py-[5px]
-                      px-[7.5px]
-                      bg-[transparent]
-                      rounded-lg
-                      shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]
-                      box-border
-                      w-[105px]
-                      shrink-0
-                      flex
-                      flex-row
-                      items-center
-                      justify-center
-                      gap-[10px]
-                      border-[2.5px]
-                      border-solid
-                      ${
-                        selectedCurrency.index === index
-                          ? "border-zinc-400"
-                          : "border-zinc-700"
-                      }
-                  `}
-                onClick={() => handleCurrencySelect(index, currency.label)}
-              >
-                <Image
-                  width={100}
-                  height={100}
-                  className="relative w-9 h-9 shrink-0 overflow-hidden"
-                  alt=""
-                  src={currency.image}
-                />
-                <div className="relative text-sm font-light font-montserrat text-white text-left">
-                  {currency.label.toUpperCase()}
-                </div>
-              </button>
-            ))}
-          </div>
+          <>
+            {!selectedCurrency.isCurrencyEditing && selectedCurrency.currency ? (
+              <SelectedCurrency
+                selectedCurrency={selectedCurrency}
+                currencyList={currencyList}
+                toggleCurrencyEditing={toggleCurrencyEditing}
+              />
+            ) : (
+              <CurrencyBlocks
+                currencyList={currencyList}
+                selectedCurrency={selectedCurrency}
+                handleCurrencySelect={handleCurrencySelectChange}
+              />
+            )}
+          </>
         )}
         <div className="flex flex-col items-end justify-start">
           <div className="flex flex-col items-start justify-start gap-3">
@@ -103,7 +85,7 @@ export default function CreateTradeCurrency({
                 onChange={handleAmount}
               />
               <div className="relative">
-                {selectedCurrency.currency.toUpperCase() || ""}
+                {selectedCurrency?.currency?.toUpperCase() || ""}
               </div>
             </div>
           </div>
@@ -144,6 +126,93 @@ export default function CreateTradeCurrency({
           </div>
         </button>
       </div>
+    </div>
+  );
+}
+
+function SelectedCurrency({ selectedCurrency, currencyList, toggleCurrencyEditing }: any) {
+  return (
+    <div
+      className="
+        flex
+        justify-between
+        w-full
+        items-center
+        bg-[transparent]
+        rounded-lg
+        shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]
+        bg-zinc-600
+        p-2
+      "
+    >
+      <div className="flex items-center">
+        <Image
+          width={100}
+          height={100}
+          className="relative w-9 h-9 shrink-0 overflow-hidden"
+          alt=""
+          src={currencyList[selectedCurrency.index].image}
+        />
+        <div className="relative text-lg mx-3 font-light font-montserrat text-white text-left">
+          {selectedCurrency.currency.toUpperCase()}
+        </div>
+      </div>
+
+      <button onClick={toggleCurrencyEditing}>
+        <PencilSquareIcon className="h-6 m-auto" />
+      </button>
+    </div>
+  );
+}
+
+function CurrencyBlocks({
+  currencyList,
+  selectedCurrency,
+  handleCurrencySelect,
+}: any) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-600 scrollbar-track-gray-600 pr-2">
+      {currencyList.map((currency: any, index: any) => (
+        <button
+          key={index}
+          className={`
+              ${selectedCurrency.index === index ? "bg-zinc-600" : "bg-none"}
+              cursor-pointer
+              py-[5px]
+              px-[7.5px]
+              bg-[transparent]
+              rounded-lg
+              shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]
+              box-border
+              w-[105px]
+              shrink-0
+              flex
+              flex-row
+              items-center
+              justify-center
+              gap-[10px]
+              border-[2.5px]
+              border-solid
+              ${
+                selectedCurrency.index === index
+                  ? "border-zinc-400"
+                  : "border-zinc-700"
+              }
+          `}
+          onClick={() => handleCurrencySelect(index, currency.label)}
+        >
+          <Image
+            width={100}
+            height={100}
+            className="relative w-9 h-9 shrink-0 overflow-hidden"
+            alt=""
+            src={currency.image}
+          />
+          <div className="relative text-sm font-light font-montserrat text-white text-left">
+            {currency.label.toUpperCase()}
+          </div>
+        </button>
+      ))}
     </div>
   );
 }

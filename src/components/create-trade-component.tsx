@@ -10,7 +10,7 @@ export default function CreateTradeComponent({
   setSelectedTradingCurrency,
   selectedSeekingCurrency,
   setSelectedSeekingCurrency,
-  handleClose
+  handleClose,
 }: any) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [tradingAmount, setTradingAmount] = useState(0);
@@ -128,9 +128,10 @@ export default function CreateTradeComponent({
           providerName: state.username,
           userSource: "telegram",
         },
-      }
+      };
 
-      await axios.request(createTradeRequest)
+      await axios
+        .request(createTradeRequest)
         .then((res) => {
           setLoading(false);
           enqueueSnackbar("Submitted!", { variant: "success" });
@@ -189,6 +190,11 @@ export default function CreateTradeComponent({
                 type === "trading"
                   ? selectedTradingCurrency
                   : selectedSeekingCurrency
+              }
+              setSelectCurrency={
+                type === "trading"
+                  ? setSelectedTradingCurrency
+                  : setSelectedSeekingCurrency
               }
               amount={type === "trading" ? tradingAmount : seekingAmount}
               handleDisclosuerClick={handleDisclosuerClick}

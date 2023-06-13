@@ -10,16 +10,21 @@ export default function CreateTrade() {
   const [selectedTradingCurrency, setSelectedTradingCurrency] = useState<{
     index: number;
     currency: string;
+    isCurrencyEditing: boolean;
   }>({
     index: -1,
     currency: "",
+    isCurrencyEditing: true
   });
+
   const [selectedSeekingCurrency, setSelectedSeekingCurrency] = useState<{
     index: number;
     currency: string;
+    isCurrencyEditing: boolean;
   }>({
     index: -1,
     currency: "",
+    isCurrencyEditing: true
   });
 
   useEffect(() => {
