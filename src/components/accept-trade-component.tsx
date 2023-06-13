@@ -86,8 +86,6 @@ export default function AcceptTradeComponent({
   });
   const [submitLoading, setSubmitLoading] = useState(false);
 
-
-
   const [cancelLoading, setCancelLoading] = useState(false);
   const [tradeDetails, setTradeDetails] = useState({
     _id: "",
