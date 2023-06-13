@@ -10,6 +10,7 @@ export default function CreateTradeComponent({
   setSelectedTradingCurrency,
   selectedSeekingCurrency,
   setSelectedSeekingCurrency,
+  handleClose
 }: any) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [tradingAmount, setTradingAmount] = useState(0);
@@ -68,10 +69,6 @@ export default function CreateTradeComponent({
         )
       );
     }
-  };
-
-  const handleClose = () => {
-    window.Telegram.WebApp.close();
   };
 
   const handleClearState = () => {

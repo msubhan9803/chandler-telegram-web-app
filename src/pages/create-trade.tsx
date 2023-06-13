@@ -38,6 +38,10 @@ export default function CreateTrade() {
     }
   }, []);
 
+  const handleClose = () => {
+    window.Telegram.WebApp.close();
+  };
+
   return (
     <CreateTradeComponent
       state={state}
@@ -45,6 +49,7 @@ export default function CreateTrade() {
       setSelectedTradingCurrency={setSelectedTradingCurrency}
       selectedSeekingCurrency={selectedSeekingCurrency}
       setSelectedSeekingCurrency={setSelectedSeekingCurrency}
+      handleClose={handleClose}
     />
   );
 }

@@ -3,7 +3,7 @@ import { Dialog } from "@headlessui/react";
 import Modal from "@/components/animated-modal";
 import CreateTradeComponent from "@/components/create-trade-component";
 
-export default function CreateTradeModel({ isOpen, closeModal }: any) {
+export default function CreateTradeModel({ isOpen, closeModal, handleClose }: any) {
   const [state, setState] = useState({
     userId: "",
     username: "",
@@ -41,6 +41,7 @@ export default function CreateTradeModel({ isOpen, closeModal }: any) {
           setSelectedTradingCurrency={setSelectedTradingCurrency}
           selectedSeekingCurrency={selectedSeekingCurrency}
           setSelectedSeekingCurrency={setSelectedSeekingCurrency}
+          handleClose={handleClose}
         />
       </Dialog.Panel>
     </Modal>

@@ -4,50 +4,10 @@ import MainLayout from "@/layouts/main-layout";
 import OtcTradingCard from "@/components/otc-trading-card";
 import StartTradeModel from "@/components/start-trade-model";
 import CurrencyFilterModal from "@/components/currency-filter-modal";
+import Spinner from "@/components/spinner";
 
 export default function OtcTrading() {
-  const cardObjects = [
-    {
-      title: "Buy All Trade",
-      orders: "N",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: true,
-    },
-    {
-      title: "Partial Trade",
-      orders: "N",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: true,
-    },
-    {
-      title: "Buy All Trade",
-      orders: "N",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: true,
-    },
-    {
-      title: "Partial Trade",
-      orders: "N",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: false,
-    },
-    {
-      title: "Buy All Trade",
-      orders: "N",
-      amount: "0.05657890 BTC",
-      currency1image: "https://caldera.trade/images/coins/btc.png",
-      currency2image: "https://caldera.trade/images/coins/acg.png",
-      isOnline: true,
-    },
-  ];
+  const [tradesList, setTradesList] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState({
     userId: "",
@@ -66,6 +26,7 @@ export default function OtcTrading() {
     currencyTwo: "",
   });
   const [isCurrencyFilterOpen, setIsCurrencyFilterOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -79,55 +40,83 @@ export default function OtcTrading() {
     closeModal();
   };
 
-  useEffect(() => {
-    // if (window.location.search) {
-    //   const urlParams = new URLSearchParams(window.location.search);
-
-    // const userId = urlParams.get("userId") as string;
-    // const username = urlParams.get("username") as string;
-    // const chatId = urlParams.get("chatId") as string;
-    // const trade_id = urlParams.get("trade_id") as string;
-    // const currencyA = urlParams.get("currencyA") as string;
-    // const currencyB = urlParams.get("currencyB") as string;
-
-    const userId = "7934567890";
-    const username = "beep";
-    const chatId = "4d91d4f5";
-    const trade_id = "646be01eeb7c234c53cf074b";
-    const currencyA = "kas";
-    const currencyB = "p3d";
-
-    setState({
-      userId,
-      username,
-      chatId,
-      trade_id,
-      currencyA,
-      currencyB,
-    });
-    // }
-  }, []);
-
   const handleCurrencyFilterClose = () => {
     setIsCurrencyFilterOpen(!isCurrencyFilterOpen);
-  }
+  };
+
+  const handleFetchTradeList = async () => {
+    setLoading(true);
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/trades/get-trade-list`;
+
+    if (currencyFilter.currencyOne && currencyFilter.currencyTwo) {
+      url += `?buyName=${currencyFilter.currencyOne}&sellName=${currencyFilter.currencyTwo}`;
+    }
+
+    const data = await fetch(url).then((res) => res.json());
+    setTradesList(data.response);
+    setLoading(false);
+  };
+
+  const handleFilterUpdate = (values: any) => {
+    setCurrencyFilter(values);
+  };
+
+  const handleSelectTrade = (state: any) => {
+    openModal();
+    setState({
+      ...state,
+      trade_id: state.tradeId,
+      currencyA: state.cryptoOne.name,
+      currencyB: state.cryptoTwo.name,
+    });
+  };
+
+  useEffect(() => {
+    setState({
+      ...state,
+      userId: "7934567890",
+      username: "beep",
+      chatId: "4d91d4f5",
+    });
+
+    handleFetchTradeList();
+  }, []);
+
+  useEffect(() => {
+    handleFetchTradeList();
+  }, [currencyFilter.currencyOne, currencyFilter.currencyOne]);
+
+  const Loader = () => {
+    return (
+      <div className="h-96 flex justify-center items-center m-auto">
+        <Spinner />
+      </div>
+    );
+  };
 
   return (
     <>
       <MainLayout>
         <Filter handleCurrencyFilterClose={handleCurrencyFilterClose} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
-          {cardObjects.map((card, index) => (
-            <OtcTradingCard key={index} cardData={card} openModal={openModal} />
-          ))}
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
+            {tradesList?.map((trade, index) => (
+              <OtcTradingCard
+                key={index}
+                tradeData={trade}
+                handleSelectTrade={handleSelectTrade}
+              />
+            ))}
+          </div>
+        )}
 
-        {state.chatId && isOpen && (
+        {isOpen && (
           <StartTradeModel
             isOpen={isOpen}
             closeModal={closeModal}
-            openModal={openModal}
             state={state}
             setState={setState}
             formState={formState}
@@ -142,6 +131,7 @@ export default function OtcTrading() {
           isCurrencyFilterOpen={isCurrencyFilterOpen}
           setIsCurrencyFilterOpen={setIsCurrencyFilterOpen}
           handleCurrencyFilterClose={handleCurrencyFilterClose}
+          handleFilterUpdate={handleFilterUpdate}
         />
       </MainLayout>
     </>

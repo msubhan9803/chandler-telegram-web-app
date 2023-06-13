@@ -8,6 +8,7 @@ export default function CurrencyFilterModal({
   isCurrencyFilterOpen,
   setIsCurrencyFilterOpen,
   handleCurrencyFilterClose,
+  handleFilterUpdate
 }: any) {
   return (
     <Modal isOpen={isCurrencyFilterOpen} onClose={handleCurrencyFilterClose}>
@@ -17,6 +18,7 @@ export default function CurrencyFilterModal({
           setCurrencyFilter={setCurrencyFilter}
           isCurrencyFilterOpen={isCurrencyFilterOpen}
           setIsCurrencyFilterOpen={setIsCurrencyFilterOpen}
+          handleFilterUpdate={handleFilterUpdate}
         />
       </Dialog.Panel>
     </Modal>

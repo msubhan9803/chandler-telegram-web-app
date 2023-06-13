@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { getUnderscorePascalCase } from "@/utils/helpers";
 
-export default function Otctradingcard({ cardData, openModal }: any) {
+export default function Otctradingcard({
+  tradeData,
+  handleSelectTrade,
+}: any) {
+  const getImage = (currencyName: string) => {
+    return `https://caldera.trade/images/coins/${currencyName}.png`;
+  };
+
+  const currencyOneImage = getImage(tradeData?.cryptoOne?.name);
+  const currencyTwoImage = getImage(tradeData?.cryptoTwo?.name);
+
   return (
     <>
       <div className="card-container p-4 border-2 bg-zinc-800 border-zinc-600 shadow shadow-neutral-500  stroke-current  rounded-md outline-white">
         <div className="font-thin text-white text-sm ">
           <div className="flex text-end justify-end text-sm font-thin text-gray-300 ">
-            {cardData.orders} : orders | 0 % Completion Rate
+            {tradeData?.orders || 0} : orders | 0 % Completion Rate
           </div>
 
           <div className=" flex flex-wrap justify-between text-sm font-normal text-white my-3">
-            {cardData.title}
+            {getUnderscorePascalCase(tradeData.tradeType)}
 
             <div className="flex py-1">
               <svg
@@ -28,7 +39,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
               </svg>
               <span
                 className={`top-0 left-7 w-2 h-2 border-none dark:border-gray-800 rounded-full ${
-                  cardData.isOnline ? "bg-green-400" : "bg-red-400"
+                  tradeData?.isOnline ? "bg-green-400" : "bg-red-400"
                 }`}
               ></span>
             </div>
@@ -38,7 +49,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
             <Image
               className="max-w-full overflow-hidden max-h-full object-cover"
               alt=""
-              src={cardData.currency1image}
+              src={currencyOneImage}
               width="30"
               height="30"
               loading="lazy"
@@ -53,7 +64,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
             <Image
               className="max-w-full overflow-hidden max-h-full object-cover"
               alt=""
-              src={cardData.currency2image}
+              src={currencyTwoImage}
               width="30"
               height="30"
               loading="lazy"
@@ -65,7 +76,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
             <div className="flex gap-1 text-gray-300 ">
               Fees:
               <Image
-                src={cardData.currency1image}
+                src={currencyOneImage}
                 alt=""
                 className="mx-1 h-5 w-5"
                 width={16}
@@ -82,13 +93,13 @@ export default function Otctradingcard({ cardData, openModal }: any) {
               </p>
               <p className="ml-2 font-normal text-white text-sm">
                 {" "}
-                {cardData.amount}
+                {tradeData?.cryptoTwo?.amount}
               </p>
             </div>
 
             <div className="flex flex-row gap-1 my-2 mx-1">
               <Image
-                src={cardData.currency2image}
+                src={currencyTwoImage}
                 alt=""
                 className="mx-1 h-5 w-5"
                 width={16}
@@ -102,7 +113,7 @@ export default function Otctradingcard({ cardData, openModal }: any) {
             <button
               type="button"
               className="text-black bg-yellow-200 hover:bg-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-3 py-1.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900"
-              onClick={openModal}
+              onClick={() => handleSelectTrade(tradeData)}
             >
               Start Trade
             </button>
