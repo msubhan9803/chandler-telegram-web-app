@@ -17,7 +17,7 @@ const operatorsList = [">=", "<=", "==", ">", "<"];
 
 export default function TypeAmountFilterModal({ isOpen, handleClose }: any) {
   const [currentOperators, setCurrentOperators] = useState(">=");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState<Number>();
   const [currentTradeType, setCurrentTradeType] = useState('');
 
   const handleAmountChange = (e: any) => {
@@ -66,7 +66,7 @@ export default function TypeAmountFilterModal({ isOpen, handleClose }: any) {
               type="number"
               min={0}
               name="amount"
-              value={amount}
+              value={amount?.toString()}
               onChange={handleAmountChange}
             />
           </div>
